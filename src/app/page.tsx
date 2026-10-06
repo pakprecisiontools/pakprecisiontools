@@ -1,69 +1,162 @@
-import Image from "next/image";
+import Link from "next/link";
+import { siteConfig } from "@/config/site";
+import { ContactForm } from "@/components/forms/ContactForm";
+import { SearchBar } from "@/components/layout/SearchBar";
+import { ArrowRightIcon, BasketIcon, GlobeIcon, SearchIcon, ShieldIcon } from "@/components/icons";
+import { BrandMark } from "@/components/product/BrandMark";
+import { ProductGrid } from "@/components/product/ProductCard";
+import { buttonClass, Container, SectionHeading } from "@/components/shared";
+import { brands, categoryHref, childCategories, products, productsInCategory, topCategories } from "@/lib/catalog";
 
-export default function Home() {
+export default function HomePage() {
+  const featured = products.slice(0, 6);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <>
+      <section className="relative isolate overflow-hidden bg-ink text-white">
+        {/* Soft brand-blue glow (decorative) so the white form card stands out on the dark hero. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(60% 90% at 85% 40%, rgba(0,71,187,0.55) 0%, rgba(0,71,187,0.18) 45%, transparent 75%)",
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+        <Container className="grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.3fr_1fr]">
+         <div>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest opacity-80">{siteConfig.tagline}</p>
+          <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+            Find the exact part. Or we’ll import it for you.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-4 max-w-2xl text-lg opacity-90">
+            Search by part number or brand, build a quote list in minutes, and let our team source anything that isn’t
+            on the shelf.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          <div className="mt-8 max-w-3xl">
+            <SearchBar size="lg" id="hero-search" />
+            <p className="mt-2 text-sm opacity-80">
+              Try: <Link href="/search?q=4WE6D6X" className="underline">4WE6D6X</Link>,{" "}
+              <Link href="/search?q=festo" className="underline">Festo</Link>,{" "}
+              <Link href="/search?q=solenoid valve" className="underline">solenoid valve</Link>
+            </p>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/products" className={buttonClass("default", "lg", "ring-1 ring-white/30")}>
+              Browse catalogue
+            </Link>
+            <Link
+              href="/source"
+              className={buttonClass("light", "lg")}
+            >
+              Source a part
+              <ArrowRightIcon width={18} height={18} />
+            </Link>
+          </div>
+         </div>
+         <ContactForm compact className="w-full lg:justify-self-end" />
+        </Container>
+      </section>
+
+      <Container className="space-y-16 py-14">
+        <section aria-label="Categories">
+          <SectionHeading title="Shop by category" />
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {topCategories().map((c) => (
+              <li key={c.slug}>
+                <Link
+                  href={categoryHref(c.slug)}
+                  className="flex h-full flex-col rounded-lg border border-border bg-card p-5 transition hover:border-primary hover:shadow-md"
+                >
+                  <span className="text-lg font-bold">{c.name}</span>
+                  <span className="mt-1 text-sm text-muted-foreground">{c.description}</span>
+                  <span className="mt-3 text-xs text-muted-foreground">
+                    {childCategories(c.slug)
+                      .map((x) => x.name)
+                      .join(" · ")}
+                  </span>
+                  <span className="mt-auto pt-4 text-sm font-semibold text-primary">
+                    {productsInCategory(c.slug).length} products →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <SectionHeading
+            title="Featured products"
+            action={
+              <Link href="/products" className="text-sm font-semibold text-primary underline">
+                View all products
+              </Link>
+            }
+          />
+          <ProductGrid products={featured} />
+        </section>
+
+        <section aria-label="Brands">
+          <SectionHeading title="Brands we supply" />
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+            {brands.map((b) => (
+              <li key={b.slug}>
+                <Link
+                  href={`/brands/${b.slug}`}
+                  className="grid h-20 place-items-center rounded-lg border border-border bg-card px-3 text-center text-muted-foreground transition hover:border-primary hover:text-foreground"
+                >
+                  <BrandMark brand={b} className="!text-base" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="rounded-2xl border border-border bg-card p-6 sm:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:items-center">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">Can’t find it? We can import it.</h2>
+              <p className="mt-3 text-muted-foreground">{siteConfig.sourcing.intro}</p>
+              <Link href="/source" className={buttonClass("dark", "lg", "mt-6")}>
+                Send a sourcing request
+                <ArrowRightIcon width={18} height={18} />
+              </Link>
+            </div>
+            <ol className="grid gap-4 sm:grid-cols-3">
+              {siteConfig.sourcing.steps.map((s, i) => (
+                <li key={s.title} className="rounded-lg bg-muted p-4">
+                  <span className="grid size-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-3 font-semibold">{s.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{s.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section aria-label="Why buy from us">
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: SearchIcon, title: "Part-number search", text: "Exact, partial or brand search that understands MPNs." },
+              { icon: BasketIcon, title: "One quote, many items", text: "Build a basket and send a single request." },
+              { icon: GlobeIcon, title: "Worldwide sourcing", text: "Discontinued or unlisted parts imported on request." },
+              { icon: ShieldIcon, title: "Genuine parts", text: "Sourced from manufacturers and authorised channels." },
+            ].map(({ icon: Icon, title, text }) => (
+              <li key={title} className="flex gap-3">
+                <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-muted text-primary">
+                  <Icon width={22} height={22} />
+                </span>
+                <div>
+                  <h3 className="font-semibold">{title}</h3>
+                  <p className="text-sm text-muted-foreground">{text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </Container>
+    </>
   );
 }

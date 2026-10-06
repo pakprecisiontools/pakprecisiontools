@@ -1,0 +1,177 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { siteConfig } from "@/config/site";
+import { DownloadIcon } from "@/components/icons";
+import { AuthorisedBadge } from "@/components/product/BrandMark";
+import { ProductActions } from "@/components/product/ProductActions";
+import { ProductGrid } from "@/components/product/ProductCard";
+import { ProductImage } from "@/components/product/ProductImage";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
+import { Breadcrumbs, Container, SectionHeading } from "@/components/shared";
+import {
+  categoryHref,
+  categoryPath,
+  getBrand,
+  getProduct,
+  products,
+  relatedProducts,
+} from "@/lib/catalog";
+
+type Props = { params: Promise<{ slug: string }> };
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return products.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const product = getProduct((await params).slug);
+  if (!product) return {};
+  const brand = getBrand(product.brand)?.name ?? "";
+  return {
+    title: `${brand} ${product.mpn} – ${product.name}`,
+    description: product.description || `${product.name} (${product.mpn}). Request a quote.`,
+  };
+}
+
+export default async function ProductPage({ params }: Props) {
+  const product = getProduct((await params).slug);
+  if (!product) notFound();
+
+  const brand = getBrand(product.brand);
+  const path = categoryPath(product.category);
+  const related = relatedProducts(product);
+  const specs = Object.entries(product.specs);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    sku: product.sku,
+    mpn: product.mpn,
+    description: product.description,
+    brand: brand && { "@type": "Brand", name: brand.name },
+    image: product.images.length ? product.images : undefined,
+  };
+
+  return (
+    <Container className="py-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          ...path.map((c) => ({ label: c.name, href: categoryHref(c.slug) })),
+          { label: product.name },
+        ]}
+      />
+
+      <div className="grid gap-8 lg:grid-cols-2">
+        <div className="space-y-3">
+          <ProductImage
+            src={product.images[0]}
+            alt={product.name}
+            brand={brand?.name}
+            className="rounded-xl border border-border"
+          />
+          {product.images.length > 1 && (
+            <ul className="grid grid-cols-4 gap-2">
+              {product.images.slice(1, 5).map((src) => (
+                <li key={src}>
+                  <ProductImage src={src} alt="" className="rounded-md border border-border" />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div>
+          <p className="flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            <Link href={`/brands/${product.brand}`} className="hover:underline">
+              {brand?.name ?? product.brand}
+            </Link>
+            {brand?.authorised && <AuthorisedBadge />}
+          </p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight">{product.name}</h1>
+
+          <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+            <dt className="text-muted-foreground">MPN</dt>
+            <dd className="font-mono font-semibold">{product.mpn}</dd>
+            <dt className="text-muted-foreground">SKU</dt>
+            <dd className="font-mono">{product.sku}</dd>
+            <dt className="text-muted-foreground">Category</dt>
+            <dd>
+              <Link href={categoryHref(product.category)} className="text-primary underline">
+                {path.at(-1)?.name}
+              </Link>
+            </dd>
+          </dl>
+
+          {product.description && <p className="mt-5 text-muted-foreground">{product.description}</p>}
+
+          <div className="mt-6 rounded-xl border border-border bg-card p-5">
+            <ProductActions product={product} whatsappNumber={siteConfig.contact.whatsapp} />
+          </div>
+
+          <section aria-labelledby="datasheets" className="mt-6">
+            <h2 id="datasheets" className="mb-2 font-bold">
+              Technical documents
+            </h2>
+            {product.datasheets.length > 0 ? (
+              <ul className="space-y-2">
+                {product.datasheets.map((d) => (
+                  <li key={d.url}>
+                    <a
+                      href={d.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted"
+                    >
+                      <DownloadIcon width={18} height={18} />
+                      {d.title}
+                      <span className="sr-only"> (PDF, opens in a new tab)</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No datasheet uploaded yet. Request one with your quote and we’ll send it over.
+              </p>
+            )}
+          </section>
+        </div>
+      </div>
+
+      {specs.length > 0 && (
+        <section aria-labelledby="specs" className="mt-12">
+          <h2 id="specs" className="mb-4 text-2xl font-bold">
+            Specifications
+          </h2>
+          <div className="max-w-3xl overflow-hidden rounded-xl border bg-card">
+            <Table>
+              <TableBody>
+                {[...specs, ["Manufacturer Part No.", product.mpn] as [string, string]].map(([k, v]) => (
+                  <TableRow key={k}>
+                    <TableHead scope="row" className="w-1/3 bg-muted px-4 py-2.5">
+                      {k}
+                    </TableHead>
+                    <TableCell className="whitespace-normal px-4 py-2.5">{v}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section className="mt-14">
+          <SectionHeading title="Related products" />
+          <ProductGrid products={related} />
+        </section>
+      )}
+    </Container>
+  );
+}
