@@ -10,8 +10,9 @@ import { MenuIcon } from "../icons";
 import { Logo } from "./Logo";
 
 type L = { href: string; label: string };
+type Group = { href: string; label: string; children: L[] };
 
-export function MobileNav({ links, categories }: { links: readonly L[]; categories: L[] }) {
+export function MobileNav({ links, categories }: { links: readonly L[]; categories: Group[] }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -46,13 +47,22 @@ export function MobileNav({ links, categories }: { links: readonly L[]; categori
               ))}
             </ul>
             <Separator className="my-4" />
-            <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Categories</p>
-            <ul className="space-y-1">
-              {categories.map((c) => (
-                <li key={c.href}>
-                  <Link href={c.href} className={linkClass}>
-                    {c.label}
+            <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Categories</p>
+            <ul className="space-y-3">
+              {categories.map((group) => (
+                <li key={group.href}>
+                  <Link href={group.href} className="block rounded-md px-3 py-1 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground">
+                    {group.label}
                   </Link>
+                  <ul>
+                    {group.children.map((c) => (
+                      <li key={c.href}>
+                        <Link href={c.href} className={linkClass}>
+                          {c.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               ))}
             </ul>

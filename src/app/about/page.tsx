@@ -17,8 +17,7 @@ export default function AboutPage() {
         <div className="max-w-none space-y-4 text-lg leading-relaxed">
           {/* TODO(client): replace with the real company overview. */}
           <p>
-            {siteConfig.name} supplies hydraulic, pneumatic, automation and test equipment to industrial customers, and
-            sources hard-to-find parts from manufacturers and authorised distributors around the world.
+            {siteConfig.name} is an importer and supplier of hydraulic, pneumatic, automation and test equipment.
           </p>
           <p className="text-muted-foreground">
             Company overview, history, team and certifications will be added here once supplied.

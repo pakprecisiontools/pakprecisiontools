@@ -8,7 +8,7 @@ export function FloatingWhatsApp() {
       href={whatsappLink("Hi, I have a question about industrial parts.", siteConfig.contact.whatsapp)}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 right-4 z-30 inline-flex size-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg transition hover:brightness-110"
+      className="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-30 inline-flex size-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-lg transition hover:brightness-110"
     >
       <WhatsAppIcon width={28} height={28} />
       <span className="sr-only">Chat on WhatsApp (opens in a new tab)</span>

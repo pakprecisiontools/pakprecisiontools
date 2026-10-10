@@ -5,6 +5,7 @@
 export {
   ArrowRight as ArrowRightIcon,
   Check as CheckIcon,
+  ChevronDown as ChevronDownIcon,
   ChevronRight as ChevronRightIcon,
   Download as DownloadIcon,
   Globe as GlobeIcon,

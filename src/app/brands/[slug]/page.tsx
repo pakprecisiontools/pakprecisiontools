@@ -3,9 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CatalogView } from "@/components/catalog/CatalogView";
 import { SourcingCta } from "@/components/catalog/SourcingCta";
-import { AuthorisedBadge } from "@/components/product/BrandMark";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { brands, getBrand, parseFilters, productsByBrand } from "@/lib/catalog";
+import { getBrand, knownBrands, parseFilters, productsByBrand } from "@/lib/catalog";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -14,7 +13,7 @@ type Props = {
 
 export const dynamicParams = false;
 
-export const generateStaticParams = () => brands.map((b) => ({ slug: b.slug }));
+export const generateStaticParams = () => knownBrands.map((b) => ({ slug: b.slug }));
 
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
   const brand = getBrand((await params).slug);
@@ -34,13 +33,7 @@ export default async function BrandPage({ params, searchParams }: Props) {
       <Breadcrumbs
         items={[{ label: "Home", href: "/" }, { label: "Brands", href: "/brands" }, { label: brand.name }]}
       />
-      <PageHeader title={brand.name} intro={brand.description}>
-        {brand.authorised && (
-          <div className="mt-3">
-            <AuthorisedBadge />
-          </div>
-        )}
-      </PageHeader>
+      <PageHeader title={brand.name} intro={brand.description} />
       <CatalogView
         base={base}
         filters={{ ...filters, brands: [] }}

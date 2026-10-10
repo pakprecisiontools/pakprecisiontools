@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { brandName } from "@/lib/catalog";
 import type { Product } from "@/lib/types";
@@ -10,30 +9,21 @@ export function ProductCard({ product }: { product: Product }) {
   const href = `/products/${product.slug}`;
   const brand = brandName(product.brand);
   return (
-    <Card className="w-full gap-0 py-0 transition hover:shadow-md">
-      <Link href={href} tabIndex={-1} aria-hidden="true">
+    <Card className="h-full w-full gap-0 overflow-hidden py-0 shadow-none transition hover:shadow-md">
+      <Link href={href} tabIndex={-1} aria-hidden="true" className="block">
         <ProductImage src={product.images[0]} alt={product.name} brand={brand} />
       </Link>
-      <CardContent className="flex flex-1 flex-col p-4">
-        <Badge variant="secondary" className="uppercase tracking-wider">
-          {brand}
-        </Badge>
-        <h3 className="mt-2 font-semibold leading-snug">
+      <CardContent className="flex flex-1 flex-col gap-1 p-3">
+        <p className="text-xs font-bold tracking-wide">{brand}</p>
+        <h3 className="mt-1 text-sm font-semibold leading-snug">
           <Link href={href} className="hover:underline">
             {product.name}
           </Link>
         </h3>
-        <dl className="mt-2 space-y-0.5 text-sm text-muted-foreground">
-          <div className="flex gap-1">
-            <dt>MPN:</dt>
-            <dd className="break-all font-mono text-foreground">{product.mpn}</dd>
-          </div>
-          <div className="flex gap-1">
-            <dt>SKU:</dt>
-            <dd className="font-mono">{product.sku}</dd>
-          </div>
-        </dl>
-        <AddToQuoteButton product={product} size="sm" className="mt-auto pt-4" />
+        <p className="text-xs leading-snug text-muted-foreground">
+          MPN: <span className="font-mono break-words text-foreground">{product.mpn}</span>
+        </p>
+        <AddToQuoteButton product={product} size="sm" className="mt-auto pt-3" />
       </CardContent>
     </Card>
   );
@@ -41,12 +31,14 @@ export function ProductCard({ product }: { product: Product }) {
 
 export function ProductGrid({ products }: { products: Product[] }) {
   return (
-    <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      {products.map((p) => (
-        <li key={p.slug} className="flex">
-          <ProductCard product={p} />
-        </li>
-      ))}
-    </ul>
+    <div className="@container">
+      <ul className="grid grid-cols-2 gap-3 @sm:grid-cols-3 @3xl:grid-cols-4 @5xl:grid-cols-5">
+        {products.map((p) => (
+          <li key={p.slug} className="flex min-w-0">
+            <ProductCard product={p} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

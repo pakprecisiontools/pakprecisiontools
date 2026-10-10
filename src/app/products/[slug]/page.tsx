@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { DownloadIcon } from "@/components/icons";
-import { AuthorisedBadge } from "@/components/product/BrandMark";
 import { ProductActions } from "@/components/product/ProductActions";
 import { ProductGrid } from "@/components/product/ProductCard";
 import { ProductImage } from "@/components/product/ProductImage";
@@ -73,13 +72,16 @@ export default async function ProductPage({ params }: Props) {
             src={product.images[0]}
             alt={product.name}
             brand={brand?.name}
+            frame="square"
+            preload
+            sizes="(max-width: 1024px) 92vw, 560px"
             className="rounded-xl border border-border"
           />
           {product.images.length > 1 && (
             <ul className="grid grid-cols-4 gap-2">
               {product.images.slice(1, 5).map((src) => (
                 <li key={src}>
-                  <ProductImage src={src} alt="" className="rounded-md border border-border" />
+                  <ProductImage src={src} alt="" frame="square" sizes="96px" className="rounded-md border border-border" />
                 </li>
               ))}
             </ul>
@@ -91,7 +93,6 @@ export default async function ProductPage({ params }: Props) {
             <Link href={`/brands/${product.brand}`} className="hover:underline">
               {brand?.name ?? product.brand}
             </Link>
-            {brand?.authorised && <AuthorisedBadge />}
           </p>
           <h1 className="mt-1 text-3xl font-bold tracking-tight">{product.name}</h1>
 

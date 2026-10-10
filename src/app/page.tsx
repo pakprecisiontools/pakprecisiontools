@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { ArrowRightIcon, BasketIcon, GlobeIcon, SearchIcon, ShieldIcon } from "@/components/icons";
-import { BrandMark } from "@/components/product/BrandMark";
+import { BrandCard } from "@/components/product/BrandMark";
 import { ProductGrid } from "@/components/product/ProductCard";
 import { buttonClass, Container, SectionHeading } from "@/components/shared";
 import { brands, categoryHref, childCategories, products, productsInCategory, topCategories } from "@/lib/catalog";
@@ -36,9 +36,9 @@ export default function HomePage() {
           <div className="mt-8 max-w-3xl">
             <SearchBar size="lg" id="hero-search" />
             <p className="mt-2 text-sm opacity-80">
-              Try: <Link href="/search?q=4WE6D6X" className="underline">4WE6D6X</Link>,{" "}
-              <Link href="/search?q=festo" className="underline">Festo</Link>,{" "}
-              <Link href="/search?q=solenoid valve" className="underline">solenoid valve</Link>
+              Try: <Link href="/search?q=Fluke%20376" className="underline">Fluke 376</Link>,{" "}
+              <Link href="/search?q=MIT515" className="underline">MIT515</Link>,{" "}
+              <Link href="/search?q=S7-1200" className="underline">S7-1200</Link>
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -98,15 +98,10 @@ export default function HomePage() {
 
         <section aria-label="Brands">
           <SectionHeading title="Brands we supply" />
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+          <ul className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-2">
             {brands.map((b) => (
               <li key={b.slug}>
-                <Link
-                  href={`/brands/${b.slug}`}
-                  className="grid h-20 place-items-center rounded-lg border border-border bg-card px-3 text-center text-muted-foreground transition hover:border-primary hover:text-foreground"
-                >
-                  <BrandMark brand={b} className="!text-base" />
-                </Link>
+                <BrandCard brand={b} />
               </li>
             ))}
           </ul>
@@ -142,7 +137,7 @@ export default function HomePage() {
               { icon: SearchIcon, title: "Part-number search", text: "Exact, partial or brand search that understands MPNs." },
               { icon: BasketIcon, title: "One quote, many items", text: "Build a basket and send a single request." },
               { icon: GlobeIcon, title: "Worldwide sourcing", text: "Discontinued or unlisted parts imported on request." },
-              { icon: ShieldIcon, title: "Genuine parts", text: "Sourced from manufacturers and authorised channels." },
+              { icon: ShieldIcon, title: "Importers and suppliers", text: "Hydraulic, pneumatic, automation and test equipment." },
             ].map(({ icon: Icon, title, text }) => (
               <li key={title} className="flex gap-3">
                 <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-muted text-primary">

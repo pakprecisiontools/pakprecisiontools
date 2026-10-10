@@ -9,8 +9,7 @@ export const siteConfig = {
   name: env.NEXT_PUBLIC_COMPANY_NAME ?? "PAK Precision Tools",
   shortName: "PAK",
   tagline: "Industrial parts, supplied and imported worldwide",
-  description:
-    "Authorised supplier of hydraulic, pneumatic, automation and test equipment. Request a quote or let us source and import the part you need.",
+  description: "Importers and suppliers of hydraulic, pneumatic, automation and test equipment.",
   url: env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 
   contact: {
@@ -40,7 +39,7 @@ export const siteConfig = {
 
   sourcing: {
     intro:
-      "We source and import industrial equipment from manufacturers and authorised distributors worldwide, including parts that are discontinued or not held in local stock.",
+      "We source and import industrial equipment from manufacturers and distributors worldwide, including parts that are discontinued or not held in local stock.",
     steps: [
       {
         title: "Send us the details",

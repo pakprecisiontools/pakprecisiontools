@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { AuthorisedBadge, BrandMark } from "@/components/product/BrandMark";
+import { BrandCard } from "@/components/product/BrandMark";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { brands, productsByBrand } from "@/lib/catalog";
+import { brands } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Brands",
-  description: "Industrial brands we supply and source, including Parker, Festo, SMC, Siemens, Omron and Fluke.",
+  description: "Industrial brands we supply and source.",
 };
 
 export default function BrandsPage() {
@@ -17,22 +16,10 @@ export default function BrandsPage() {
         title="Brands"
         intro="Genuine products from leading manufacturers. Don’t see your brand? We can source it."
       />
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-2">
         {brands.map((b) => (
           <li key={b.slug}>
-            <Link
-              href={`/brands/${b.slug}`}
-              className="flex h-full flex-col gap-2 rounded-lg border border-border bg-card p-5 transition hover:border-primary hover:shadow-md"
-            >
-              <div className="flex min-h-10 items-center justify-between gap-2">
-                <BrandMark brand={b} />
-                {b.authorised && <AuthorisedBadge />}
-              </div>
-              <p className="text-sm text-muted-foreground">{b.description}</p>
-              <p className="mt-auto pt-2 text-sm font-semibold text-primary">
-                {productsByBrand(b.slug).length} products →
-              </p>
-            </Link>
+            <BrandCard brand={b} />
           </li>
         ))}
       </ul>

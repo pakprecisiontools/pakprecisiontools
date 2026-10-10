@@ -24,10 +24,10 @@ export function AddToQuoteButton({ product, quantity = 1, size = "default", clas
         onClick={() => add(product, quantity)}
         variant={added ? "outline" : "default"}
         size={size}
-        className="w-full"
+        className={size === "sm" ? "h-8 w-full px-2 text-xs" : "w-full"}
       >
         {added ? <CheckIcon size={18} /> : <PlusIcon size={18} />}
-        {added ? "Added – add more" : "Add to Quote"}
+        {added ? (size === "sm" ? "Added" : "Added – add more") : "Add to Quote"}
       </Button>
       {added && (
         <Link href="/quote" className="mt-1 block text-center text-sm font-medium text-primary underline">

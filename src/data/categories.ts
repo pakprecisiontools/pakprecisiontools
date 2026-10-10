@@ -6,40 +6,53 @@ import type { Category } from "@/lib/types";
  */
 export const categories: Category[] = [
   {
-    slug: "hydraulics",
-    name: "Hydraulics",
-    description: "Valves, pumps and components for hydraulic power systems.",
+    slug: "electrical-test",
+    name: "Electrical Test & Measurement",
+    description: "Clamp meters, insulation testers, thermal imagers and oscilloscopes.",
   },
-  { slug: "hydraulic-valves", name: "Valves", parent: "hydraulics" },
-  { slug: "solenoid-valves", name: "Solenoid Valves", parent: "hydraulic-valves" },
   {
-    slug: "directional-control-valves",
-    name: "Directional Control Valves",
-    parent: "hydraulic-valves",
+    slug: "process-instrumentation",
+    name: "Process Instrumentation, Flow, Pressure, Level & Fluid Handling",
+    description: "Pressure, flow, level and fluid-handling instruments.",
   },
-  { slug: "hydraulic-pumps", name: "Pumps", parent: "hydraulics" },
-
   {
-    slug: "pneumatics",
-    name: "Pneumatics",
-    description: "Cylinders, valves and air preparation for pneumatic automation.",
+    slug: "industrial-automation",
+    name: "Industrial Automation, Control Logic & Motor Protection",
+    description: "PLCs, contactors, drives, sensors and motor protection.",
   },
-  { slug: "pneumatic-valves", name: "Valves", parent: "pneumatics" },
-  { slug: "pneumatic-cylinders", name: "Cylinders", parent: "pneumatics" },
-
   {
-    slug: "automation-control",
-    name: "Automation & Control",
-    description: "PLCs, sensors and control components for industrial automation.",
+    slug: "ppe-safety",
+    name: "PPE, Occupational Safety & Gas Detection",
+    description: "Respirators, protective clothing, fall protection and gas detectors.",
   },
-  { slug: "plcs", name: "PLCs", parent: "automation-control" },
-  { slug: "sensors", name: "Sensors", parent: "automation-control" },
-
   {
-    slug: "test-measurement",
-    name: "Test & Measurement",
-    description: "Multimeters, clamp meters and diagnostic instruments.",
+    slug: "condition-monitoring",
+    name: "Turbomachinery Condition Monitoring & Vibration",
+    description: "Machinery-protection racks, modules and proximity probes.",
   },
-  { slug: "multimeters", name: "Multimeters", parent: "test-measurement" },
-  { slug: "clamp-meters", name: "Clamp Meters", parent: "test-measurement" },
+  {
+    slug: "calibrators",
+    name: "Metrology-Grade Pressure & Temperature Calibrators",
+    description: "Handheld pressure calibrators and field metrology dry-wells.",
+  },
+  {
+    slug: "rf-laboratory",
+    name: "High-Bandwidth RF, Microwave & Laboratory Electronics",
+    description: "Handheld microwave analyzers, oscilloscopes and source measure units.",
+  },
+  {
+    slug: "mass-flow",
+    name: "Coriolis Flowmeters & Mass Flow Controllers",
+    description: "Coriolis flowmeters and mass flow controllers.",
+  },
+  {
+    slug: "analytical-sensors",
+    name: "Environmental & Trace Analytical Sensors",
+    description: "Dew point, moisture and combustion transmitters.",
+  },
+  {
+    slug: "remote-inspection",
+    name: "Transportable Multi-Threat Safety & Remote Inspection",
+    description: "Area monitors and industrial video borescopes.",
+  },
 ];

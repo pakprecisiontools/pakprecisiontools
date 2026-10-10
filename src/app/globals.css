@@ -88,7 +88,7 @@
   }
   html {
     @apply font-sans;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 10rem;
   }
   body {
     @apply bg-background text-foreground;

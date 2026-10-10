@@ -9,11 +9,9 @@ export type Category = {
 export type Brand = {
   slug: string;
   name: string;
-  /** Path under /public, e.g. "/brands/parker.svg". Falls back to a text wordmark. */
+  /** Public path or remote logo URL. Falls back to a short monogram. */
   logo?: string;
   description?: string;
-  /** Show an "Authorised distributor" badge. */
-  authorised?: boolean;
 };
 
 export type Datasheet = { title: string; url: string };

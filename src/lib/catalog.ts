@@ -6,7 +6,10 @@ import type { Brand, Category, Product } from "./types";
 export const products: Product[] = raw as unknown as Product[];
 export { brands, categories };
 
-const brandMap = new Map(brands.map((b) => [b.slug, b]));
+/** Every brand that has a page, including ones only reached from a product. */
+export const knownBrands: Brand[] = brands;
+
+const brandMap = new Map(knownBrands.map((b) => [b.slug, b]));
 const categoryMap = new Map(categories.map((c) => [c.slug, c]));
 const productMap = new Map(products.map((p) => [p.slug, p]));
 
@@ -35,6 +38,60 @@ export const categoryHref = (slug: string) =>
   `/category/${categoryPath(slug)
     .map((c) => c.slug)
     .join("/")}`;
+
+const navQualifier: Record<string, string> = {
+  hydraulics: "Hydraulic",
+  pneumatics: "Pneumatic",
+  "automation-control": "Automation",
+  "test-measurement": "Test",
+};
+
+export type NavGroup = {
+  href: string;
+  label: string;
+  children: { href: string; label: string }[];
+};
+
+/** Categories that products are filed under (no further children). */
+function leafCategories(slug: string): Category[] {
+  const children = childCategories(slug);
+  if (children.length === 0) {
+    const self = categoryMap.get(slug);
+    return self ? [self] : [];
+  }
+  return children.flatMap((child) => leafCategories(child.slug));
+}
+
+/** Top-level categories, each with the product subcategories beneath it. */
+export function categoryNav(): NavGroup[] {
+  return topCategories().map((top) => ({
+    href: categoryHref(top.slug),
+    label: top.name,
+    children: leafCategories(top.slug).map((leaf) => ({
+      href: categoryHref(leaf.slug),
+      label: leaf.name,
+    })),
+  }));
+}
+
+/**
+ * Product subcategory links for the desktop bar. A name shared with another
+ * category (both groups have "Valves") is prefixed so the links stay distinct.
+ */
+export function subcategoryNav(): { href: string; label: string }[] {
+  const groups = topCategories().map((top) => ({
+    slug: top.slug,
+    leaves: leafCategories(top.slug),
+  }));
+  const counts = new Map<string, number>();
+  for (const category of categories) counts.set(category.name, (counts.get(category.name) ?? 0) + 1);
+  return groups.flatMap((group) =>
+    group.leaves.map((leaf) => ({
+      href: categoryHref(leaf.slug),
+      label: (counts.get(leaf.name) ?? 0) > 1 ? `${navQualifier[group.slug] ?? group.slug} ${leaf.name}` : leaf.name,
+    })),
+  );
+}
 
 /** Resolves /category/a/b/c, verifying each segment is the child of the previous one. */
 export function resolveCategory(segments: string[]): Category | undefined {

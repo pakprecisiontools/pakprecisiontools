@@ -31,7 +31,7 @@ export function SearchBar({
         autoFocus={autoFocus}
         autoComplete="off"
         placeholder="Search part number, brand or product…"
-        className={cn("rounded-r-none border-r-0 bg-card", lg ? "h-14 px-4 text-base" : "h-11 text-sm")}
+        className={cn("rounded-r-none border-r-0 bg-card text-base", lg ? "h-14 px-4" : "h-11 md:text-sm")}
       />
       <Button type="submit" size={lg ? "lg" : "default"} className={cn("rounded-l-none", lg ? "h-14 px-6" : "h-11")}>
         <SearchIcon size={18} />
