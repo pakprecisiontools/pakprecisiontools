@@ -36,8 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
   const all = await catalogProducts();
-  const product = all.find((p) => p.slug === (await params).slug);
+  const product = all.find((p) => p.slug === slug);
   if (!product) notFound();
 
   const brand = getBrand(product.brand);
