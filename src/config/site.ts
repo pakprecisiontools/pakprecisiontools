@@ -29,6 +29,9 @@ export const siteConfig = {
     mapUrl: text(env.NEXT_PUBLIC_MAP_URL),
 
 
+
+
+
     
   },
 
