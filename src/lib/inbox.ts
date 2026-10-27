@@ -1,7 +1,10 @@
+import { inboxSiteKey, inboxUrl } from "./dashboard";
+
 /**
  * Forwards a validated form to the Laravel inbox.
- * Set INBOX_URL and INBOX_SITE_KEY on the Vercel project.
+ * INBOX_URL and INBOX_SITE_KEY on Vercel override the live dashboard defaults.
  */
+
 export async function deliverToInbox(input: {
   type: "contact" | "sourcing" | "inquiry";
   reference: string;
@@ -9,15 +12,8 @@ export async function deliverToInbox(input: {
   items?: unknown;
   files?: File[];
 }): Promise<boolean> {
-  const url = process.env.INBOX_URL;
-  const key = process.env.INBOX_SITE_KEY;
-  if (!url || !key) {
-    if (process.env.NODE_ENV === "production") {
-      throw new Error("Inbox is not configured. Set INBOX_URL and INBOX_SITE_KEY.");
-    }
-    console.info("[inbox] skipped (INBOX_URL / INBOX_SITE_KEY not set)");
-    return false;
-  }
+  const url = inboxUrl();
+  const key = inboxSiteKey();
 
   const fd = new FormData();
   fd.set("type", input.type);

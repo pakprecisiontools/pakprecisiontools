@@ -1,9 +1,8 @@
+import { inboxSiteKey, inboxUrl } from "./dashboard";
 import type { Product } from "./types";
 
-function catalogUrl(): string | null {
-  const inbox = process.env.INBOX_URL;
-  if (!inbox) return null;
-  return inbox.replace(/\/submissions\/?$/, "/catalog/products");
+function catalogUrl(): string {
+  return inboxUrl().replace(/\/submissions\/?$/, "/catalog/products");
 }
 
 function isProduct(value: unknown): value is Product {
@@ -15,8 +14,7 @@ function isProduct(value: unknown): value is Product {
 /** Published products created in the Laravel dashboard for this site. */
 export async function fetchRemoteProducts(): Promise<Product[]> {
   const url = catalogUrl();
-  const key = process.env.INBOX_SITE_KEY;
-  if (!url || !key) return [];
+  const key = inboxSiteKey();
 
   try {
     const res = await fetch(url, {
