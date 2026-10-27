@@ -27,6 +27,9 @@ export const siteConfig = {
   address: {
     lines: lines(env.NEXT_PUBLIC_ADDRESS),
     mapUrl: text(env.NEXT_PUBLIC_MAP_URL),
+
+
+    
   },
 
   hours: [
