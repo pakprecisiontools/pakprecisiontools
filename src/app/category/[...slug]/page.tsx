@@ -10,6 +10,7 @@ import {
   categoryPath,
   childCategories,
   parseFilters,
+  catalogProducts,
   productsInCategory,
   resolveCategory,
 } from "@/lib/catalog";
@@ -42,7 +43,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   if (!category) notFound();
 
   const filters = parseFilters(await searchParams);
-  const base = productsInCategory(category.slug);
+  const base = productsInCategory(category.slug, await catalogProducts());
   const children = childCategories(category.slug);
   const path = categoryPath(category.slug);
   const pathname = categoryHref(category.slug);

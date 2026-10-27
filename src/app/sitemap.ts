@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
-import { brands, categories, categoryHref, products } from "@/lib/catalog";
+import { brands, catalogProducts, categories, categoryHref } from "@/lib/catalog";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const url = (path: string) => `${siteConfig.url}${path}`;
+  const products = await catalogProducts();
   return [
     ...["", "/products", "/brands", "/source", "/about", "/contact", "/privacy", "/terms"].map((p) => ({ url: url(p) })),
     ...categories.map((c) => ({ url: url(categoryHref(c.slug)) })),

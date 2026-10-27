@@ -12,33 +12,27 @@ export default function AboutPage() {
   return (
     <Container className="py-8">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About us" }]} />
-      <PageHeader title={`About ${siteConfig.name}`} />
+      <PageHeader title={`About ${siteConfig.name}`} intro={siteConfig.description} />
       <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
         <div className="max-w-none space-y-4 text-lg leading-relaxed">
-          {/* TODO(client): replace with the real company overview. */}
-          <p>
-            {siteConfig.name} is an importer and supplier of hydraulic, pneumatic, automation and test equipment.
-          </p>
-          <p className="text-muted-foreground">
-            Company overview, history, team and certifications will be added here once supplied.
-          </p>
-          <h2 className="pt-4 text-2xl font-bold">Sourcing &amp; import</h2>
           <p className="text-muted-foreground">{siteConfig.sourcing.intro}</p>
           <Link href="/source" className={buttonClass("dark", "lg")}>
             Source a part
           </Link>
         </div>
         <aside className="h-fit rounded-lg border border-border bg-card p-5">
-          <h2 className="font-bold">Visit or contact us</h2>
-          <address className="mt-2 not-italic text-muted-foreground">
-            {siteConfig.address.lines.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </address>
+          <h2 className="font-bold">Contact</h2>
+          {siteConfig.address.lines.length ? (
+            <address className="mt-2 not-italic text-muted-foreground">
+              {siteConfig.address.lines.map((l) => (
+                <span key={l} className="block">
+                  {l}
+                </span>
+              ))}
+            </address>
+          ) : null}
           <Link href="/contact" className="mt-4 inline-block font-semibold text-primary underline">
-            Contact details &amp; hours
+            Send a message
           </Link>
         </aside>
       </div>

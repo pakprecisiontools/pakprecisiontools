@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CatalogView } from "@/components/catalog/CatalogView";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { parseFilters, products } from "@/lib/catalog";
+import { catalogProducts, parseFilters } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "All products",
@@ -15,12 +15,13 @@ export default async function ProductsPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const filters = parseFilters(await searchParams);
+  const all = await catalogProducts();
   return (
     <Container className="py-8">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Products" }]} />
       <PageHeader title="All products" intro="Filter by brand, category and technical specification." />
       <CatalogView
-        base={products}
+        base={all}
         filters={filters}
         pathname="/products"
         empty={

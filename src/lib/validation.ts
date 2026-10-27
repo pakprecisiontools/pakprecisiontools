@@ -1,4 +1,4 @@
-import { getProduct } from "./catalog";
+import { catalogProducts } from "./catalog";
 import { validateFileList } from "./uploadRules";
 import type { QuoteItem } from "./types";
 
@@ -69,8 +69,9 @@ export async function validateRfq(fd: FormData): Promise<Validated<RfqInput>> {
   try {
     const parsed: unknown = JSON.parse(text(fd, "items") || "[]");
     if (!Array.isArray(parsed)) throw new Error("not an array");
+    const bySlug = new Map((await catalogProducts()).map((p) => [p.slug, p]));
     for (const row of parsed.slice(0, 50)) {
-      const p = typeof row?.slug === "string" ? getProduct(row.slug) : undefined;
+      const p = typeof row?.slug === "string" ? bySlug.get(row.slug) : undefined;
       if (!p) continue;
       const quantity = Number(row.quantity);
       const note = typeof row.note === "string" ? row.note.trim().slice(0, 500) : "";

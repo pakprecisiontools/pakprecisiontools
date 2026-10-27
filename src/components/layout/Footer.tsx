@@ -59,28 +59,36 @@ export function Footer() {
         <div>
           <h2 className="mb-3 text-sm font-bold uppercase tracking-wider">Contact</h2>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex gap-2">
-              <PinIcon width={18} height={18} className="mt-0.5 shrink-0" />
-              <address className="not-italic">{address.lines.join(", ")}</address>
-            </li>
-            <li className="flex gap-2">
-              <PhoneIcon width={18} height={18} className="mt-0.5 shrink-0" />
-              <a href={`tel:${contact.landline.replace(/[^\d+]/g, "")}`} className="hover:text-foreground hover:underline">
-                {contact.landline}
-              </a>
-            </li>
-            <li className="flex gap-2">
-              <WhatsAppIcon width={18} height={18} className="mt-0.5 shrink-0" />
-              <a href={`https://wa.me/${contact.whatsapp}`} className="hover:text-foreground hover:underline">
-                {contact.whatsappDisplay}
-              </a>
-            </li>
-            <li className="flex gap-2">
-              <MailIcon width={18} height={18} className="mt-0.5 shrink-0" />
-              <a href={`mailto:${contact.publicEmail}`} className="hover:text-foreground hover:underline">
-                {contact.publicEmail}
-              </a>
-            </li>
+            {address.lines.length ? (
+              <li className="flex gap-2">
+                <PinIcon width={18} height={18} className="mt-0.5 shrink-0" />
+                <address className="not-italic">{address.lines.join(", ")}</address>
+              </li>
+            ) : null}
+            {contact.landline ? (
+              <li className="flex gap-2">
+                <PhoneIcon width={18} height={18} className="mt-0.5 shrink-0" />
+                <a href={`tel:${contact.landline.replace(/[^\d+]/g, "")}`} className="hover:text-foreground hover:underline">
+                  {contact.landline}
+                </a>
+              </li>
+            ) : null}
+            {contact.whatsapp ? (
+              <li className="flex gap-2">
+                <WhatsAppIcon width={18} height={18} className="mt-0.5 shrink-0" />
+                <a href={`https://wa.me/${contact.whatsapp}`} className="hover:text-foreground hover:underline">
+                  {contact.whatsappDisplay || contact.whatsapp}
+                </a>
+              </li>
+            ) : null}
+            {contact.publicEmail ? (
+              <li className="flex gap-2">
+                <MailIcon width={18} height={18} className="mt-0.5 shrink-0" />
+                <a href={`mailto:${contact.publicEmail}`} className="hover:text-foreground hover:underline">
+                  {contact.publicEmail}
+                </a>
+              </li>
+            ) : null}
           </ul>
           <h3 className="mb-1 mt-5 text-sm font-bold">Business hours</h3>
           <ul className="space-y-0.5 text-sm text-muted-foreground">

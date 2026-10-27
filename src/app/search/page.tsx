@@ -3,7 +3,7 @@ import { CatalogView } from "@/components/catalog/CatalogView";
 import { SourcingCta } from "@/components/catalog/SourcingCta";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { parseFilters } from "@/lib/catalog";
+import { catalogProducts, parseFilters } from "@/lib/catalog";
 import { searchProducts } from "@/lib/search";
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -14,7 +14,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const params = await searchParams;
   const q = (Array.isArray(params.q) ? params.q[0] : params.q)?.trim().slice(0, 100) ?? "";
   const filters = parseFilters(params);
-  const matches = q ? searchProducts(q) : [];
+  const matches = q ? searchProducts(q, 100, await catalogProducts()) : [];
 
   return (
     <Container className="py-8">

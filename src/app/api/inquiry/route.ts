@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { fail, makeReference, readSubmission, type SubmitResponse } from "@/lib/api";
 import { buildRfqEmails } from "@/lib/emails";
+import { deliverToInbox } from "@/lib/inbox";
 import { sendPair } from "@/lib/mail";
 import { validateRfq } from "@/lib/validation";
 
@@ -15,8 +16,26 @@ export async function POST(req: Request) {
   if (!result.ok) return fail(422, "Please check the highlighted fields.", result.errors);
 
   const reference = makeReference("RFQ");
+  const data = result.data;
   try {
-    await sendPair(await buildRfqEmails(reference, result.data));
+    const inboxOk = await deliverToInbox({
+      type: "inquiry",
+      reference,
+      fields: {
+        name: data.contact.name,
+        company: data.contact.company,
+        email: data.contact.email,
+        phone: data.contact.phone,
+        country: data.contact.country,
+        message: data.message,
+      },
+      items: data.items,
+      files: data.files,
+    });
+    await sendPair(await buildRfqEmails(reference, data)).catch((err) => {
+      if (!inboxOk) throw err;
+      console.error("[api/inquiry] email failed after inbox save", err);
+    });
   } catch (err) {
     console.error("[api/inquiry] delivery failed", err);
     return fail(503, "We could not send your request right now. Please contact us on WhatsApp or by phone.");

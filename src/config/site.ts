@@ -1,40 +1,36 @@
-/**
- * Central business configuration.
- * Replace the placeholder values (or set the matching env vars in `.env.local`)
- * with the real details supplied by the client.
- */
 const env = process.env;
+const text = (value: string | undefined) => (value ?? "").trim();
+const lines = (value: string | undefined) =>
+  text(value)
+    .split("|")
+    .map((line) => line.trim())
+    .filter(Boolean);
 
 export const siteConfig = {
-  name: env.NEXT_PUBLIC_COMPANY_NAME ?? "PAK Precision Tools",
+  name: text(env.NEXT_PUBLIC_COMPANY_NAME) || "PAK Precision Tools",
   shortName: "PAK",
   tagline: "Industrial parts, supplied and imported worldwide",
   description: "Importers and suppliers of hydraulic, pneumatic, automation and test equipment.",
-  url: env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: text(env.NEXT_PUBLIC_SITE_URL) || "http://localhost:3001",
 
   contact: {
-    /** Inboxes that receive RFQs (comma separated in env). Used once email is wired up. */
-    salesEmails: (env.SALES_EMAIL ?? "sales@example.com")
+    salesEmails: (env.SALES_EMAIL || text(env.NEXT_PUBLIC_CONTACT_EMAIL))
       .split(",")
       .map((e) => e.trim())
       .filter(Boolean),
-    /** Public email shown on the site. */
-    publicEmail: env.NEXT_PUBLIC_CONTACT_EMAIL ?? "sales@example.com",
-    /** WhatsApp Business number, digits only with country code (no + or spaces). */
-    whatsapp: env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "920000000000",
-    whatsappDisplay: env.NEXT_PUBLIC_WHATSAPP_DISPLAY ?? "+92 000 0000000",
-    landline: env.NEXT_PUBLIC_LANDLINE ?? "+92 00 0000 0000",
+    publicEmail: text(env.NEXT_PUBLIC_CONTACT_EMAIL),
+    whatsapp: text(env.NEXT_PUBLIC_WHATSAPP_NUMBER),
+    whatsappDisplay: text(env.NEXT_PUBLIC_WHATSAPP_DISPLAY),
+    landline: text(env.NEXT_PUBLIC_LANDLINE),
   },
 
   address: {
-    lines: ["Office / Showroom address line 1", "City, Province, Country"],
-    mapUrl: "",
+    lines: lines(env.NEXT_PUBLIC_ADDRESS),
+    mapUrl: text(env.NEXT_PUBLIC_MAP_URL),
   },
 
   hours: [
-    { days: "Monday – Friday", time: "9:00 – 18:00" },
-    { days: "Saturday", time: "10:00 – 15:00" },
-    { days: "Sunday", time: "Closed" },
+    { days: "Monday – Sunday", time: "9:00 AM – 7:00 PM" },
   ],
 
   sourcing: {
@@ -54,7 +50,6 @@ export const siteConfig = {
         text: "Once approved, we handle purchasing, freight, customs clearance and delivery to your site.",
       },
     ],
-    // TODO(client): replace with real sourcing countries, lead times and freight capabilities.
     capabilities: [
       "Sourcing regions: Europe, USA, Japan, China, Middle East",
       "Typical lead time: 2–4 weeks (air freight), 6–10 weeks (sea freight)",

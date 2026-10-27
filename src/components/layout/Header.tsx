@@ -21,20 +21,24 @@ export function Header() {
         <div className="mx-auto flex h-9 w-full max-w-screen-2xl items-center justify-between px-8 text-sm">
           <p>{siteConfig.tagline}</p>
           <p className="flex items-center gap-5">
-            <a href={`tel:${siteConfig.contact.landline.replace(/[^\d+]/g, "")}`} className="flex items-center gap-1.5 hover:underline">
-              <PhoneIcon width={15} height={15} />
-              {siteConfig.contact.landline}
-            </a>
-            <a
-              href={`https://wa.me/${siteConfig.contact.whatsapp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:underline"
-            >
-              <WhatsAppIcon width={15} height={15} />
-              {siteConfig.contact.whatsappDisplay}
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
+            {siteConfig.contact.landline ? (
+              <a href={`tel:${siteConfig.contact.landline.replace(/[^\d+]/g, "")}`} className="flex items-center gap-1.5 hover:underline">
+                <PhoneIcon width={15} height={15} />
+                {siteConfig.contact.landline}
+              </a>
+            ) : null}
+            {siteConfig.contact.whatsapp ? (
+              <a
+                href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 hover:underline"
+              >
+                <WhatsAppIcon width={15} height={15} />
+                {siteConfig.contact.whatsappDisplay || siteConfig.contact.whatsapp}
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            ) : null}
           </p>
         </div>
       </div>

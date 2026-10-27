@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { CatalogView } from "@/components/catalog/CatalogView";
 import { SourcingCta } from "@/components/catalog/SourcingCta";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { getBrand, knownBrands, parseFilters, productsByBrand } from "@/lib/catalog";
+import { catalogProducts, getBrand, knownBrands, parseFilters, productsByBrand } from "@/lib/catalog";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -26,7 +26,7 @@ export default async function BrandPage({ params, searchParams }: Props) {
 
   const filters = parseFilters(await searchParams);
   const pathname = `/brands/${brand.slug}`;
-  const base = productsByBrand(brand.slug);
+  const base = productsByBrand(brand.slug, await catalogProducts());
 
   return (
     <Container className="py-8">

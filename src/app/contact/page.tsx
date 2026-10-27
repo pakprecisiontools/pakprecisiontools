@@ -23,29 +23,37 @@ export default function ContactPage() {
         <section className="space-y-4 rounded-lg border border-border bg-card p-6">
           <h2 className="text-lg font-bold">Sales</h2>
           <ul className="space-y-3">
-            <li className="flex gap-3">
-              <WhatsAppIcon className="mt-0.5 shrink-0" />
-              <a href={whatsappLink("Hi, I need some help.", contact.whatsapp)} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                WhatsApp {contact.whatsappDisplay}
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            </li>
-            <li className="flex gap-3">
-              <PhoneIcon className="mt-0.5 shrink-0" />
-              <a href={`tel:${contact.landline.replace(/[^\d+]/g, "")}`} className="hover:underline">
-                {contact.landline}
-              </a>
-            </li>
-            <li className="flex gap-3">
-              <MailIcon className="mt-0.5 shrink-0" />
-              <a href={`mailto:${contact.publicEmail}`} className="hover:underline">
-                {contact.publicEmail}
-              </a>
-            </li>
-            <li className="flex gap-3">
-              <PinIcon className="mt-0.5 shrink-0" />
-              <address className="not-italic">{address.lines.join(", ")}</address>
-            </li>
+            {contact.whatsapp ? (
+              <li className="flex gap-3">
+                <WhatsAppIcon className="mt-0.5 shrink-0" />
+                <a href={whatsappLink("Hello, I would like some help.", contact.whatsapp)} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  WhatsApp {contact.whatsappDisplay || contact.whatsapp}
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+            ) : null}
+            {contact.landline ? (
+              <li className="flex gap-3">
+                <PhoneIcon className="mt-0.5 shrink-0" />
+                <a href={`tel:${contact.landline.replace(/[^\d+]/g, "")}`} className="hover:underline">
+                  {contact.landline}
+                </a>
+              </li>
+            ) : null}
+            {contact.publicEmail ? (
+              <li className="flex gap-3">
+                <MailIcon className="mt-0.5 shrink-0" />
+                <a href={`mailto:${contact.publicEmail}`} className="hover:underline">
+                  {contact.publicEmail}
+                </a>
+              </li>
+            ) : null}
+            {address.lines.length ? (
+              <li className="flex gap-3">
+                <PinIcon className="mt-0.5 shrink-0" />
+                <address className="not-italic">{address.lines.join(", ")}</address>
+              </li>
+            ) : null}
           </ul>
         </section>
 

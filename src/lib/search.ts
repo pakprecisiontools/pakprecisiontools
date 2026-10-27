@@ -14,19 +14,21 @@ type Indexed = {
   other: string;
 };
 
-const index: Indexed[] = products.map((product) => ({
-  product,
-  mpn: normalize(product.mpn),
-  sku: normalize(product.sku),
-  brand: normalize(brandName(product.brand)),
-  name: normalize(product.name),
-  category: normalize(
-    categoryPath(product.category)
-      .map((c) => c.name)
-      .join(" "),
-  ),
-  other: normalize(`${product.description} ${Object.values(product.specs).join(" ")}`),
-}));
+function indexProducts(list: Product[]): Indexed[] {
+  return list.map((product) => ({
+    product,
+    mpn: normalize(product.mpn),
+    sku: normalize(product.sku),
+    brand: normalize(brandName(product.brand)),
+    name: normalize(product.name),
+    category: normalize(
+      categoryPath(product.category)
+        .map((c) => c.name)
+        .join(" "),
+    ),
+    other: normalize(`${product.description} ${Object.values(product.specs).join(" ")}`),
+  }));
+}
 
 /**
  * Part-number-first search.
@@ -37,9 +39,10 @@ const index: Indexed[] = products.map((product) => ({
  * - Multi-word queries require every word to match somewhere.
  * - Results are ranked: exact part number > prefix > partial > brand > name > the rest.
  */
-export function searchProducts(query: string, limit = 100): Product[] {
+export function searchProducts(query: string, limit = 100, list: Product[] = products): Product[] {
   const whole = normalize(query);
   if (!whole) return [];
+  const index = indexProducts(list);
 
   const tokens = query
     .toLowerCase()

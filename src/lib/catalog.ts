@@ -1,9 +1,10 @@
-import raw from "@/data/products.generated.json";
 import { brands } from "@/data/brands";
 import { categories } from "@/data/categories";
+import { fetchRemoteProducts } from "./remote-catalog";
 import type { Brand, Category, Product } from "./types";
 
-export const products: Product[] = raw as unknown as Product[];
+/** No built-in catalogue. Product pages load published rows from the dashboard API. */
+export const products: Product[] = [];
 export { brands, categories };
 
 /** Every brand that has a page, including ones only reached from a product. */
@@ -11,9 +12,7 @@ export const knownBrands: Brand[] = brands;
 
 const brandMap = new Map(knownBrands.map((b) => [b.slug, b]));
 const categoryMap = new Map(categories.map((c) => [c.slug, c]));
-const productMap = new Map(products.map((p) => [p.slug, p]));
 
-export const getProduct = (slug: string) => productMap.get(slug);
 export const getBrand = (slug: string): Brand | undefined => brandMap.get(slug);
 export const getCategory = (slug: string): Category | undefined => categoryMap.get(slug);
 export const brandName = (slug: string) => brandMap.get(slug)?.name ?? slug;
@@ -112,15 +111,15 @@ export function descendantSlugs(slug: string): string[] {
   return out;
 }
 
-export function productsInCategory(slug: string): Product[] {
+export function productsInCategory(slug: string, list: Product[] = products): Product[] {
   const set = new Set(descendantSlugs(slug));
-  return products.filter((p) => set.has(p.category));
+  return list.filter((p) => set.has(p.category));
 }
 
-export const productsByBrand = (slug: string) => products.filter((p) => p.brand === slug);
+export const productsByBrand = (slug: string, list: Product[] = products) => list.filter((p) => p.brand === slug);
 
-export function relatedProducts(product: Product, limit = 4): Product[] {
-  return products
+export function relatedProducts(product: Product, limit = 4, list: Product[] = products): Product[] {
+  return list
     .filter((p) => p.slug !== product.slug)
     .map((p) => ({
       p,
@@ -230,4 +229,13 @@ export function parseFilters(
     if (k.startsWith("spec.")) f.specs[k.slice(5)] = list(v);
   }
   return f;
+}
+
+/** Published products from the Laravel dashboard. */
+export async function catalogProducts(): Promise<Product[]> {
+  return fetchRemoteProducts();
+}
+
+export async function catalogProduct(slug: string): Promise<Product | undefined> {
+  return (await catalogProducts()).find((p) => p.slug === slug);
 }

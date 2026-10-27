@@ -36,7 +36,7 @@ export function ProductImage({
         className,
       )}
     >
-      {photo?.startsWith("http") ? (
+      {photo?.startsWith("http") || photo?.startsWith("data:") ? (
         // Remote file, loaded directly so the photo stays the exact source image.
         // eslint-disable-next-line @next/next/no-img-element
         <img

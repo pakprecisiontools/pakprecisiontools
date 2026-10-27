@@ -9,24 +9,24 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { Breadcrumbs, Container, SectionHeading } from "@/components/shared";
 import {
+  catalogProduct,
+  catalogProducts,
   categoryHref,
   categoryPath,
   getBrand,
-  getProduct,
-  products,
   relatedProducts,
 } from "@/lib/catalog";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = getProduct((await params).slug);
+  const product = await catalogProduct((await params).slug);
   if (!product) return {};
   const brand = getBrand(product.brand)?.name ?? "";
   return {
@@ -36,12 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const product = getProduct((await params).slug);
+  const all = await catalogProducts();
+  const product = all.find((p) => p.slug === (await params).slug);
   if (!product) notFound();
 
   const brand = getBrand(product.brand);
   const path = categoryPath(product.category);
-  const related = relatedProducts(product);
+  const related = relatedProducts(product, 4, all);
   const specs = Object.entries(product.specs);
 
   const jsonLd = {
