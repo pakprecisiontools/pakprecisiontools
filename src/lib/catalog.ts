@@ -15,7 +15,29 @@ const categoryMap = new Map(categories.map((c) => [c.slug, c]));
 
 export const getBrand = (slug: string): Brand | undefined => brandMap.get(slug);
 export const getCategory = (slug: string): Category | undefined => categoryMap.get(slug);
-export const brandName = (slug: string) => brandMap.get(slug)?.name ?? slug;
+export const brandName = (slug: string) => {
+  const known = brandMap.get(slug)?.name ?? brandMap.get(slug.toLowerCase())?.name;
+  if (known) return known;
+  return slug
+    .split(/[-\s]+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
+/** Catalogue names often compare several brands. The card shows only the first. */
+export function primaryProductName(name: string): string {
+  return name.split("|")[0]?.trim() || name.trim();
+}
+
+/** Brand written at the start of the product name, such as "Omron MY2N…". */
+export function leadingBrandName(name: string): string | undefined {
+  const title = primaryProductName(name).toLowerCase();
+  return [...brands]
+    .map((brand) => brand.name)
+    .sort((a, b) => b.length - a.length)
+    .find((brand) => title === brand.toLowerCase() || title.startsWith(`${brand.toLowerCase()} `));
+}
 
 /* ----------------------------- Categories ----------------------------- */
 

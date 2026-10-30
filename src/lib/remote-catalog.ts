@@ -5,6 +5,16 @@ function catalogUrl(): string {
   return inboxUrl().replace(/\/submissions\/?$/, "/catalog/products");
 }
 
+function publicSpecs(specs: unknown): Record<string, string> {
+  if (!specs || typeof specs !== "object" || Array.isArray(specs)) return {};
+  return Object.fromEntries(
+    Object.entries(specs).filter(
+      (entry): entry is [string, string] =>
+        entry[0].trim().toLowerCase() !== "supply status" && typeof entry[1] === "string",
+    ),
+  );
+}
+
 function isProduct(value: unknown): value is Product {
   if (!value || typeof value !== "object") return false;
   const row = value as Partial<Product>;
@@ -32,7 +42,7 @@ export async function fetchRemoteProducts(): Promise<Product[]> {
       brand: row.brand || "",
       category: row.category || "",
       description: row.description || "",
-      specs: row.specs && typeof row.specs === "object" ? row.specs : {},
+      specs: publicSpecs(row.specs),
       images: Array.isArray(row.images) ? row.images.filter((src): src is string => typeof src === "string") : [],
       datasheets: Array.isArray(row.datasheets) ? row.datasheets : [],
     }));

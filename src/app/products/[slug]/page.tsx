@@ -9,7 +9,11 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { Breadcrumbs, Container, SectionHeading } from "@/components/shared";
 import {
+  brandName,
+  brands,
   catalogProduct,
+  leadingBrandName,
+  primaryProductName,
   catalogProducts,
   categoryHref,
   categoryPath,
@@ -28,10 +32,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await catalogProduct((await params).slug);
   if (!product) return {};
-  const brand = getBrand(product.brand)?.name ?? "";
+  const brand = leadingBrandName(product.name) ?? getBrand(product.brand)?.name ?? "";
+  const title = primaryProductName(product.name);
   return {
-    title: `${brand} ${product.mpn} – ${product.name}`,
-    description: product.description || `${product.name} (${product.mpn}). Request a quote.`,
+    title: `${brand} ${product.mpn} – ${title}`,
+    description: product.description || `${title} (${product.mpn}). Request a quote.`,
   };
 }
 
@@ -41,7 +46,9 @@ export default async function ProductPage({ params }: Props) {
   const product = all.find((p) => p.slug === slug);
   if (!product) notFound();
 
-  const brand = getBrand(product.brand);
+  const title = primaryProductName(product.name);
+  const brandLabel = leadingBrandName(product.name) ?? brandName(product.brand);
+  const brandSlug = brands.find((item) => item.name.toLowerCase() === brandLabel.toLowerCase())?.slug ?? product.brand;
   const path = categoryPath(product.category);
   const related = relatedProducts(product, 4, all);
   const specs = Object.entries(product.specs);
@@ -49,11 +56,11 @@ export default async function ProductPage({ params }: Props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.name,
+    name: title,
     sku: product.sku,
     mpn: product.mpn,
     description: product.description,
-    brand: brand && { "@type": "Brand", name: brand.name },
+    brand: { "@type": "Brand", name: brandLabel },
     image: product.images.length ? product.images : undefined,
   };
 
@@ -64,7 +71,7 @@ export default async function ProductPage({ params }: Props) {
         items={[
           { label: "Home", href: "/" },
           ...path.map((c) => ({ label: c.name, href: categoryHref(c.slug) })),
-          { label: product.name },
+          { label: title },
         ]}
       />
 
@@ -72,8 +79,8 @@ export default async function ProductPage({ params }: Props) {
         <div className="space-y-3">
           <ProductImage
             src={product.images[0]}
-            alt={product.name}
-            brand={brand?.name}
+            alt={title}
+            brand={brandLabel}
             frame="square"
             preload
             sizes="(max-width: 1024px) 92vw, 560px"
@@ -91,12 +98,12 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         <div>
-          <p className="flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            <Link href={`/brands/${product.brand}`} className="hover:underline">
-              {brand?.name ?? product.brand}
+          <p className="flex flex-wrap items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground">
+            <Link href={`/brands/${brandSlug}`} className="hover:underline">
+              {brandLabel}
             </Link>
           </p>
-          <h1 className="mt-1 text-3xl font-bold tracking-tight">{product.name}</h1>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight">{title}</h1>
 
           <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
             <dt className="text-muted-foreground">MPN</dt>
