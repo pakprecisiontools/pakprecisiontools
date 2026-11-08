@@ -62,7 +62,21 @@ export function Footer() {
             {address.lines.length ? (
               <li className="flex gap-2">
                 <PinIcon width={18} height={18} className="mt-0.5 shrink-0" />
-                <address className="not-italic">{address.lines.join(", ")}</address>
+                <address className="not-italic">
+                  {address.mapUrl ? (
+                    <a
+                      href={address.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-foreground hover:underline"
+                    >
+                      {address.lines.join(", ")}
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    address.lines.join(", ")
+                  )}
+                </address>
               </li>
             ) : null}
             {contact.landline ? (

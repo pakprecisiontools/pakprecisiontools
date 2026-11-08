@@ -10,8 +10,9 @@ export const siteConfig = {
   name: text(env.NEXT_PUBLIC_COMPANY_NAME) || "PAK Precision Tools",
   shortName: "PAK",
   tagline: "Industrial parts, supplied and imported worldwide",
-  description: "Importers and suppliers of hydraulic, pneumatic, automation and test equipment.",
-  url: text(env.NEXT_PUBLIC_SITE_URL) || "http://localhost:3001",
+  description:
+    "Importers and suppliers of electrical test, process instrumentation, industrial automation, PPE and calibration equipment. Search by part number or brand, or request worldwide sourcing.",
+  url: text(env.NEXT_PUBLIC_SITE_URL) || "https://pakprecisiontools.pk",
 
   contact: {
     salesEmails: (env.SALES_EMAIL || text(env.NEXT_PUBLIC_CONTACT_EMAIL))
@@ -25,14 +26,13 @@ export const siteConfig = {
   },
 
   address: {
-    lines: lines(env.NEXT_PUBLIC_ADDRESS),
-    mapUrl: text(env.NEXT_PUBLIC_MAP_URL),
-
-
-
-
-
-    
+    lines: lines(env.NEXT_PUBLIC_ADDRESS) || [
+      "Shop 29, Bank Arcade, Serai Road",
+      "Karachi, Pakistan",
+    ],
+    mapUrl:
+      text(env.NEXT_PUBLIC_MAP_URL) ||
+      "https://www.google.com/maps/search/?api=1&query=Shop+29+Bank+Arcade+Serai+Road+Karachi+Pakistan",
   },
 
   hours: [
