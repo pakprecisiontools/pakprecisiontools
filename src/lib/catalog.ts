@@ -1,31 +1,22 @@
-import { brands as localBrands } from "@/data/brands";
 import { categories } from "@/data/categories";
 import { fetchRemoteBrands, fetchRemoteProducts } from "./remote-catalog";
 import type { Brand, Category, Product } from "./types";
 
 /** No built-in catalogue. Product pages load published rows from the dashboard API. */
 export const products: Product[] = [];
-/** Static fallback brand list (used when the dashboard brands API is empty). */
-export const brands: Brand[] = localBrands;
+/** Brands come from the dashboard only — no static Next.js brand list. */
+export const brands: Brand[] = [];
 export { categories };
 
-/** Every brand that has a page, including ones only reached from a product. */
-export const knownBrands: Brand[] = brands;
-
-const brandMap = new Map(knownBrands.map((b) => [b.slug, b]));
 const categoryMap = new Map(categories.map((c) => [c.slug, c]));
 
-export const getBrand = (slug: string): Brand | undefined => brandMap.get(slug);
 export const getCategory = (slug: string): Category | undefined => categoryMap.get(slug);
-export const brandName = (slug: string) => {
-  const known = brandMap.get(slug)?.name ?? brandMap.get(slug.toLowerCase())?.name;
-  if (known) return known;
-  return slug
+export const brandName = (slug: string) =>
+  slug
     .split(/[-\s]+/)
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
-};
 
 /** Catalogue names often compare several brands. The card shows only the first. */
 export function primaryProductName(name: string): string {
@@ -33,9 +24,9 @@ export function primaryProductName(name: string): string {
 }
 
 /** Brand written at the start of the product name, such as "Omron MY2N…". */
-export function leadingBrandName(name: string): string | undefined {
+export function leadingBrandName(name: string, brandList: Brand[] = brands): string | undefined {
   const title = primaryProductName(name).toLowerCase();
-  return [...brands]
+  return [...brandList]
     .map((brand) => brand.name)
     .sort((a, b) => b.length - a.length)
     .find((brand) => title === brand.toLowerCase() || title.startsWith(`${brand.toLowerCase()} `));
@@ -264,22 +255,11 @@ export async function catalogProduct(slug: string): Promise<Product | undefined>
   return (await catalogProducts()).find((p) => p.slug === slug);
 }
 
-/**
- * Brands for directory pages. Prefers dashboard brands (with logos);
- * falls back to the static list when the API has none yet.
- */
+/** Brands for directory pages — from the Laravel dashboard API only. */
 export async function catalogBrands(): Promise<Brand[]> {
-  const remote = await fetchRemoteBrands();
-  if (remote.length === 0) return brands;
-
-  const map = new Map<string, Brand>();
-  for (const brand of brands) map.set(brand.slug, brand);
-  for (const brand of remote) {
-    map.set(brand.slug, { ...map.get(brand.slug), ...brand });
-  }
-  return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
+  return [...(await fetchRemoteBrands())].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function resolveBrand(slug: string): Promise<Brand | undefined> {
-  return (await catalogBrands()).find((b) => b.slug === slug) ?? getBrand(slug);
+  return (await catalogBrands()).find((b) => b.slug === slug);
 }

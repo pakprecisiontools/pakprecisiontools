@@ -10,14 +10,13 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/u
 import { Breadcrumbs, Container, SectionHeading } from "@/components/shared";
 import {
   brandName,
-  brands,
+  catalogBrands,
   catalogProduct,
   leadingBrandName,
   primaryProductName,
   catalogProducts,
   categoryHref,
   categoryPath,
-  getBrand,
   relatedProducts,
 } from "@/lib/catalog";
 
@@ -32,7 +31,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await catalogProduct((await params).slug);
   if (!product) return {};
-  const brand = leadingBrandName(product.name) ?? getBrand(product.brand)?.name ?? "";
+  const brandList = await catalogBrands();
+  const brand =
+    leadingBrandName(product.name, brandList) ??
+    brandList.find((b) => b.slug === product.brand)?.name ??
+    brandName(product.brand);
   const title = primaryProductName(product.name);
   return {
     title: `${brand} ${product.mpn} – ${title}`,
@@ -42,13 +45,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const all = await catalogProducts();
+  const [all, brandList] = await Promise.all([catalogProducts(), catalogBrands()]);
   const product = all.find((p) => p.slug === slug);
   if (!product) notFound();
 
   const title = primaryProductName(product.name);
-  const brandLabel = leadingBrandName(product.name) ?? brandName(product.brand);
-  const brandSlug = brands.find((item) => item.name.toLowerCase() === brandLabel.toLowerCase())?.slug ?? product.brand;
+  const matched = brandList.find((b) => b.slug === product.brand);
+  const brandLabel = leadingBrandName(product.name, brandList) ?? matched?.name ?? brandName(product.brand);
+  const brandSlug = matched?.slug ?? product.brand;
   const path = categoryPath(product.category);
   const related = relatedProducts(product, 4, all);
   const specs = Object.entries(product.specs);

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { CatalogView } from "@/components/catalog/CatalogView";
 import { SourcingCta } from "@/components/catalog/SourcingCta";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { catalogProducts, knownBrands, parseFilters, productsByBrand, resolveBrand } from "@/lib/catalog";
+import { catalogBrands, catalogProducts, parseFilters, productsByBrand, resolveBrand } from "@/lib/catalog";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -13,7 +13,9 @@ type Props = {
 
 export const dynamicParams = true;
 
-export const generateStaticParams = () => knownBrands.map((b) => ({ slug: b.slug }));
+export async function generateStaticParams() {
+  return (await catalogBrands()).map((b) => ({ slug: b.slug }));
+}
 
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
   const brand = await resolveBrand((await params).slug);
