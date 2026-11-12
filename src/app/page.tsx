@@ -6,10 +6,11 @@ import { ArrowRightIcon, BasketIcon, GlobeIcon, SearchIcon, ShieldIcon } from "@
 import { BrandCard } from "@/components/product/BrandMark";
 import { ProductGrid } from "@/components/product/ProductCard";
 import { buttonClass, Container, SectionHeading } from "@/components/shared";
-import { brands, catalogProducts, categoryHref, childCategories, productsInCategory, topCategories } from "@/lib/catalog";
+import { catalogBrands, catalogProducts, categoryHref, childCategories, productsInCategory, topCategories } from "@/lib/catalog";
 
 export default async function HomePage() {
   const products = await catalogProducts();
+  const brands = await catalogBrands();
   const featured = products.slice(0, 6);
 
   return (

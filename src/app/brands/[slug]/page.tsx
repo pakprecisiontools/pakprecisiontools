@@ -4,24 +4,24 @@ import { notFound } from "next/navigation";
 import { CatalogView } from "@/components/catalog/CatalogView";
 import { SourcingCta } from "@/components/catalog/SourcingCta";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { catalogProducts, getBrand, knownBrands, parseFilters, productsByBrand } from "@/lib/catalog";
+import { catalogProducts, knownBrands, parseFilters, productsByBrand, resolveBrand } from "@/lib/catalog";
 
 type Props = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export const generateStaticParams = () => knownBrands.map((b) => ({ slug: b.slug }));
 
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
-  const brand = getBrand((await params).slug);
+  const brand = await resolveBrand((await params).slug);
   return brand ? { title: `${brand.name} products`, description: `${brand.name} parts and equipment – request a quote.` } : {};
 }
 
 export default async function BrandPage({ params, searchParams }: Props) {
-  const brand = getBrand((await params).slug);
+  const brand = await resolveBrand((await params).slug);
   if (!brand) notFound();
 
   const filters = parseFilters(await searchParams);

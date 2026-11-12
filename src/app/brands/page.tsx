@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { BrandCard } from "@/components/product/BrandMark";
 import { Breadcrumbs, Container, PageHeader } from "@/components/shared";
-import { brands } from "@/lib/catalog";
+import { catalogBrands } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Brands",
   description: "Industrial brands we supply and source.",
 };
 
-export default function BrandsPage() {
+export default async function BrandsPage() {
+  const brands = await catalogBrands();
+
   return (
     <Container className="py-8">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Brands" }]} />

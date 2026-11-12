@@ -1,8 +1,8 @@
 import { inboxSiteKey, inboxUrl } from "./dashboard";
-import type { Product } from "./types";
+import type { Brand, Product } from "./types";
 
-function catalogUrl(): string {
-  return inboxUrl().replace(/\/submissions\/?$/, "/catalog/products");
+function catalogUrl(kind: "products" | "brands" = "products"): string {
+  return inboxUrl().replace(/\/submissions\/?$/, `/catalog/${kind}`);
 }
 
 function publicSpecs(specs: unknown): Record<string, string> {
@@ -23,7 +23,7 @@ function isProduct(value: unknown): value is Product {
 
 /** Published products created in the Laravel dashboard for this site. */
 export async function fetchRemoteProducts(): Promise<Product[]> {
-  const url = catalogUrl();
+  const url = catalogUrl("products");
   const key = inboxSiteKey();
 
   try {
@@ -45,6 +45,36 @@ export async function fetchRemoteProducts(): Promise<Product[]> {
       specs: publicSpecs(row.specs),
       images: Array.isArray(row.images) ? row.images.filter((src): src is string => typeof src === "string") : [],
       datasheets: Array.isArray(row.datasheets) ? row.datasheets : [],
+    }));
+  } catch {
+    return [];
+  }
+}
+
+function isBrand(value: unknown): value is Brand {
+  if (!value || typeof value !== "object") return false;
+  const row = value as Partial<Brand>;
+  return typeof row.slug === "string" && row.slug !== "" && typeof row.name === "string" && row.name !== "";
+}
+
+/** Active brands managed in the Laravel dashboard for this site. */
+export async function fetchRemoteBrands(): Promise<Brand[]> {
+  const url = catalogUrl("brands");
+  const key = inboxSiteKey();
+
+  try {
+    const res = await fetch(url, {
+      headers: { "X-Site-Key": key, Accept: "application/json" },
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const body = (await res.json()) as { brands?: unknown };
+    if (!Array.isArray(body.brands)) return [];
+    return body.brands.filter(isBrand).map((row) => ({
+      slug: row.slug,
+      name: row.name,
+      logo: row.logo || undefined,
+      description: row.description || undefined,
     }));
   } catch {
     return [];

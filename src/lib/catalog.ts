@@ -1,11 +1,13 @@
-import { brands } from "@/data/brands";
+import { brands as localBrands } from "@/data/brands";
 import { categories } from "@/data/categories";
-import { fetchRemoteProducts } from "./remote-catalog";
+import { fetchRemoteBrands, fetchRemoteProducts } from "./remote-catalog";
 import type { Brand, Category, Product } from "./types";
 
 /** No built-in catalogue. Product pages load published rows from the dashboard API. */
 export const products: Product[] = [];
-export { brands, categories };
+/** Static fallback brand list (used when the dashboard brands API is empty). */
+export const brands: Brand[] = localBrands;
+export { categories };
 
 /** Every brand that has a page, including ones only reached from a product. */
 export const knownBrands: Brand[] = brands;
@@ -260,4 +262,24 @@ export async function catalogProducts(): Promise<Product[]> {
 
 export async function catalogProduct(slug: string): Promise<Product | undefined> {
   return (await catalogProducts()).find((p) => p.slug === slug);
+}
+
+/**
+ * Brands for directory pages. Prefers dashboard brands (with logos);
+ * falls back to the static list when the API has none yet.
+ */
+export async function catalogBrands(): Promise<Brand[]> {
+  const remote = await fetchRemoteBrands();
+  if (remote.length === 0) return brands;
+
+  const map = new Map<string, Brand>();
+  for (const brand of brands) map.set(brand.slug, brand);
+  for (const brand of remote) {
+    map.set(brand.slug, { ...map.get(brand.slug), ...brand });
+  }
+  return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function resolveBrand(slug: string): Promise<Brand | undefined> {
+  return (await catalogBrands()).find((b) => b.slug === slug) ?? getBrand(slug);
 }
