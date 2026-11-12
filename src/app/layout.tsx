@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   openGraph: { siteName: siteConfig.name, type: "website" },
   other: {
     "facebook-domain-verification": "srxerfqjrol3lj7s29fdoxkkccddfa",
+
+
+    
   },
 };
 
