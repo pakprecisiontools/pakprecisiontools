@@ -115,16 +115,13 @@ export function ContactForm({
             />
           </div>
 
-          {/* Honeypot: hidden from sight and assistive tech. */}
-          <input
-            type="text"
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-            className="hidden"
-            defaultValue=""
-          />
+          {/* Honeypot: real users never see or fill this. */}
+          <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+            <label>
+              Leave this field empty
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
 
           <Button type="submit" size="lg" disabled={sending} className="w-full">
             {sending ? "Sending…" : "Send message"}

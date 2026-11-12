@@ -17,13 +17,7 @@ export const generateStaticParams = () => knownBrands.map((b) => ({ slug: b.slug
 
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
   const brand = getBrand((await params).slug);
-  if (!brand) return {};
-  const count = productsByBrand(brand.slug, await catalogProducts()).length;
-  return {
-    title: `${brand.name} products`,
-    description: `${brand.name} parts and equipment – request a quote from ${brand.name} stock and sourcing.`,
-    robots: count === 0 ? { index: false, follow: true } : undefined,
-  };
+  return brand ? { title: `${brand.name} products`, description: `${brand.name} parts and equipment – request a quote.` } : {};
 }
 
 export default async function BrandPage({ params, searchParams }: Props) {

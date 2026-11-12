@@ -26,6 +26,7 @@ export default async function HomePage() {
         />
         <Container className="grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1.3fr_1fr]">
          <div>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest opacity-80">{siteConfig.tagline}</p>
           <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
             Find the exact part. Or we’ll import it for you.
           </h1>
@@ -97,22 +98,13 @@ export default async function HomePage() {
         </section>
 
         <section aria-label="Brands">
-          <SectionHeading
-            title="Brands we supply"
-            action={
-              <Link href="/brands" className="text-sm font-semibold text-primary underline">
-                View all brands
-              </Link>
-            }
-          />
+          <SectionHeading title="Brands we supply" />
           <ul className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-2">
-            {brands
-              .filter((b) => products.some((p) => p.brand === b.slug))
-              .map((b) => (
-                <li key={b.slug}>
-                  <BrandCard brand={b} />
-                </li>
-              ))}
+            {brands.map((b) => (
+              <li key={b.slug}>
+                <BrandCard brand={b} />
+              </li>
+            ))}
           </ul>
         </section>
 
@@ -146,7 +138,7 @@ export default async function HomePage() {
               { icon: SearchIcon, title: "Part-number search", text: "Exact, partial or brand search that understands MPNs." },
               { icon: BasketIcon, title: "One quote, many items", text: "Build a basket and send a single request." },
               { icon: GlobeIcon, title: "Worldwide sourcing", text: "Discontinued or unlisted parts imported on request." },
-              { icon: ShieldIcon, title: "Importers and suppliers", text: "Electrical test, process instruments, automation, PPE and calibration gear." },
+              { icon: ShieldIcon, title: "Importers and suppliers", text: "Hydraulic, pneumatic, automation and test equipment." },
             ].map(({ icon: Icon, title, text }) => (
               <li key={title} className="flex gap-3">
                 <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-muted text-primary">

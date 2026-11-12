@@ -7,52 +7,52 @@ import type { Category } from "@/lib/types";
 export const categories: Category[] = [
   {
     slug: "electrical-test",
-    name: "Electrical Test",
+    name: "Electrical Test & Measurement",
     description: "Clamp meters, insulation testers, thermal imagers and oscilloscopes.",
   },
   {
     slug: "process-instrumentation",
-    name: "Process Instrumentation",
+    name: "Process Instrumentation, Flow, Pressure, Level & Fluid Handling",
     description: "Pressure, flow, level and fluid-handling instruments.",
   },
   {
     slug: "industrial-automation",
-    name: "Industrial Automation",
+    name: "Industrial Automation, Control Logic & Motor Protection",
     description: "PLCs, contactors, drives, sensors and motor protection.",
   },
   {
     slug: "ppe-safety",
-    name: "PPE & Safety",
+    name: "PPE, Occupational Safety & Gas Detection",
     description: "Respirators, protective clothing, fall protection and gas detectors.",
   },
   {
     slug: "condition-monitoring",
-    name: "Condition Monitoring",
+    name: "Turbomachinery Condition Monitoring & Vibration",
     description: "Machinery-protection racks, modules and proximity probes.",
   },
   {
     slug: "calibrators",
-    name: "Calibrators",
+    name: "Metrology-Grade Pressure & Temperature Calibrators",
     description: "Handheld pressure calibrators and field metrology dry-wells.",
   },
   {
     slug: "rf-laboratory",
-    name: "RF & Lab Electronics",
+    name: "High-Bandwidth RF, Microwave & Laboratory Electronics",
     description: "Handheld microwave analyzers, oscilloscopes and source measure units.",
   },
   {
     slug: "mass-flow",
-    name: "Mass Flow",
+    name: "Coriolis Flowmeters & Mass Flow Controllers",
     description: "Coriolis flowmeters and mass flow controllers.",
   },
   {
     slug: "analytical-sensors",
-    name: "Analytical Sensors",
+    name: "Environmental & Trace Analytical Sensors",
     description: "Dew point, moisture and combustion transmitters.",
   },
   {
     slug: "remote-inspection",
-    name: "Remote Inspection",
+    name: "Transportable Multi-Threat Safety & Remote Inspection",
     description: "Area monitors and industrial video borescopes.",
   },
 ];

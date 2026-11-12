@@ -6,8 +6,7 @@ import { catalogProducts, parseFilters } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "All products",
-  description:
-    "Browse electrical test, process instrumentation, automation, PPE and calibration products by brand and part number.",
+  description: "Browse industrial hydraulic, pneumatic, automation and test equipment by brand and specification.",
 };
 
 export default async function ProductsPage({
