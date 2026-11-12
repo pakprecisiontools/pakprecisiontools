@@ -9,7 +9,7 @@ import { QuoteProvider } from "@/components/quote/QuoteProvider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const GTM_ID = "GTM-M7VT4BRT";
+const META_PIXEL_ID = "1910823723615065";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -24,9 +24,6 @@ export const metadata: Metadata = {
   openGraph: { siteName: siteConfig.name, type: "website" },
   other: {
     "facebook-domain-verification": "srxerfqjrol3lj7s29fdoxkkccddfa",
-
-
-    
   },
 };
 
@@ -40,25 +37,28 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <Script id="meta-pixel" strategy="afterInteractive">{`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '${META_PIXEL_ID}');
+          fbq('track', 'PageView');
+        `}</Script>
         <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-            height={0}
-            width={0}
-            style={{ display: "none", visibility: "hidden" }}
-            title="Google Tag Manager"
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            height={1}
+            width={1}
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+            alt=""
           />
         </noscript>
-        <Script id="gtm-datalayer" strategy="afterInteractive">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        `}</Script>
-        <Script
-          id="gtm"
-          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
-          strategy="afterInteractive"
-        />
         <QuoteProvider>
           <a
             href="#main"
