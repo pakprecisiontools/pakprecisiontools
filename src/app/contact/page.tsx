@@ -51,7 +51,7 @@ export default function ContactPage() {
             {address.lines.length ? (
               <li className="flex gap-3">
                 <PinIcon className="mt-0.5 shrink-0" />
-                <address className="not-italic">{address.lines.join(", ")}</address>
+                <address className="not-italic">{[...address.lines, address.city, address.country].filter(Boolean).join(", ")}</address>
               </li>
             ) : null}
           </ul>

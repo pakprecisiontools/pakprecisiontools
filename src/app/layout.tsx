@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} – Industrial parts, quotes & worldwide sourcing`,
+    default: "Industrial Instruments Supplier Pakistan",
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
-  openGraph: { siteName: siteConfig.name, type: "website" },
+  description: siteConfig.metaDescription,
+  openGraph: { siteName: siteConfig.name, type: "website", description: siteConfig.metaDescription },
   other: {
     "facebook-domain-verification": "srxerfqjrol3lj7s29fdoxkkccddfa",
   },

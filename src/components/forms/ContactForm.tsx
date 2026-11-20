@@ -46,10 +46,12 @@ export function ContactForm({
       >
         <CardContent className="space-y-5 px-5 py-6 sm:px-7 sm:py-7">
           <div>
-            <h2 className={cn("font-bold tracking-tight", compact ? "text-xl" : "text-2xl")}>Send us a message</h2>
+            <h2 className={cn("font-bold tracking-tight", compact ? "text-xl" : "text-2xl")}>
+              {compact ? "Request a Quote for Industrial Equipment" : "Send us a message"}
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               {compact
-                ? "Part enquiry or question? We reply within one business day."
+                ? "Send a part number, brand or a photo of the old part. Our team replies within one business day with price, availability and lead time."
                 : "Questions, part enquiries or anything else – we usually reply within one business day."}
             </p>
           </div>
@@ -59,37 +61,28 @@ export function ContactForm({
           <div className="grid gap-x-4 gap-y-4 sm:grid-cols-2">
             <TextField label="Full name" name="name" required autoComplete="name" error={errors.name} />
             {compact ? (
-              <TextField
-                label="Phone / WhatsApp"
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                placeholder="Optional"
-                error={errors.phone}
-              />
-            ) : (
-              <TextField
-                label="Email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                error={errors.email}
-              />
-            )}
-
-            {compact ? (
-              <TextField
-                label="Email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                error={errors.email}
-                className="sm:col-span-2"
-              />
+              <>
+                <TextField label="Company name" name="company" autoComplete="organization" error={errors.company} />
+                <TextField
+                  label="Phone / WhatsApp"
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel"
+                  placeholder="Optional"
+                  error={errors.phone}
+                />
+                <TextField label="Email" name="email" type="email" required autoComplete="email" error={errors.email} />
+              </>
             ) : (
               <>
+                <TextField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  error={errors.email}
+                />
                 <TextField
                   label="Phone / WhatsApp"
                   name="phone"
@@ -124,7 +117,7 @@ export function ContactForm({
           </div>
 
           <Button type="submit" size="lg" disabled={sending} className="w-full">
-            {sending ? "Sending…" : "Send message"}
+            {sending ? "Sending…" : compact ? "Send enquiry" : "Send message"}
           </Button>
         </CardContent>
       </Card>

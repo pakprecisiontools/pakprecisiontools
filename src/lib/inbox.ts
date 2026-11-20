@@ -24,7 +24,8 @@ export async function deliverToInbox(input: {
     }
   }
   if (input.items) fd.set("items", JSON.stringify(input.items));
-  for (const file of input.files ?? []) fd.append("files", file);
+  // PHP expects files[] for multi-file arrays; include the filename explicitly for Node fetch.
+  for (const file of input.files ?? []) fd.append("files[]", file, file.name);
 
   const res = await fetch(url, {
     method: "POST",

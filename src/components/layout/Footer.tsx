@@ -25,11 +25,6 @@ export function Footer() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link href="/source" className="font-semibold text-primary hover:underline">
-                Source a Part
-              </Link>
-            </li>
           </ul>
         </nav>
 
@@ -43,6 +38,11 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/source" className="text-muted-foreground hover:text-foreground hover:underline">
+                Source a Part
+              </Link>
+            </li>
             <li>
               <Link href="/privacy" className="text-muted-foreground hover:text-foreground hover:underline">
                 Privacy Policy
@@ -62,7 +62,9 @@ export function Footer() {
             {address.lines.length ? (
               <li className="flex gap-2">
                 <PinIcon width={18} height={18} className="mt-0.5 shrink-0" />
-                <address className="not-italic">{address.lines.join(", ")}</address>
+                <address className="not-italic">
+                  {[...address.lines, address.city, address.country].filter(Boolean).join(", ")}
+                </address>
               </li>
             ) : null}
             {contact.landline ? (
@@ -101,7 +103,7 @@ export function Footer() {
         </div>
       </Container>
       <div className="border-t border-border py-4 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} {siteConfig.name}. All brand names and logos are property of their respective owners.
+        © {new Date().getFullYear()} {siteConfig.name}, Pakistan. All brand names and logos are property of their respective owners.
       </div>
     </footer>
   );
