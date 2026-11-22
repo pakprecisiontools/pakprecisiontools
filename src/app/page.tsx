@@ -7,6 +7,7 @@ import {
   ArrowRightIcon,
   BasketIcon,
   CheckIcon,
+  ChevronRightIcon,
   GlobeIcon,
   PinIcon,
   SearchIcon,
@@ -183,30 +184,39 @@ export default async function HomePage() {
           </ul>
         </section>
 
-        <section aria-labelledby="home-about" className="rounded-2xl border border-border bg-card p-6 sm:p-10">
-          <h2 id="home-about" className="text-3xl font-bold tracking-tight">
-            {sections.about.title}
-          </h2>
-          <div className="mt-4 max-w-3xl space-y-4 text-muted-foreground">
-            {sections.about.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </section>
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+          <section aria-labelledby="home-about">
+            <h2 id="home-about" className="text-3xl font-bold tracking-tight">
+              {sections.about.title}
+            </h2>
+            <div className="mt-4 space-y-4 text-muted-foreground">
+              {sections.about.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </section>
 
-        <section aria-labelledby="home-faq">
-          <SectionHeading title={sections.faq.title} />
-          <div className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
-            {sections.faq.items.map((item) => (
-              <details key={item.q} className="group px-4 py-3">
-                <summary className="cursor-pointer list-none font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
-                  {item.q}
-                </summary>
-                <p className="mt-2 text-muted-foreground">{item.a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
+          <section aria-labelledby="home-faq">
+            <h2 id="home-faq" className="text-3xl font-bold tracking-tight">
+              {sections.faq.title}
+            </h2>
+            <div className="mt-4 space-y-3">
+              {sections.faq.items.map((item) => (
+                <details key={item.q} className="group rounded-xl border border-border bg-card px-5 py-4">
+                  <summary className="flex cursor-pointer list-none items-start gap-2 font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
+                    <ChevronRightIcon
+                      width={18}
+                      height={18}
+                      className="mt-0.5 shrink-0 text-primary transition-transform group-open:rotate-90"
+                    />
+                    {item.q}
+                  </summary>
+                  <p className="mt-2 pl-6 text-muted-foreground">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        </div>
       </Container>
     </>
   );
