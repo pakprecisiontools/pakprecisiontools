@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { SearchBar } from "@/components/layout/SearchBar";
@@ -18,6 +19,11 @@ import { catalogBrands, catalogProducts, categoryHref, productsInCategory, topCa
 
 /** One icon per item in siteConfig.sections.why.items, in the same order. */
 const whyIcons = [SearchIcon, BasketIcon, GlobeIcon, ShieldIcon, CheckIcon, PinIcon];
+
+export const metadata: Metadata = {
+  // The layout title template doesn't apply to the root page, so add the brand here.
+  title: `Industrial Instruments Supplier Pakistan | ${siteConfig.name}`,
+};
 
 export default async function HomePage() {
   const products = await catalogProducts();
@@ -190,7 +196,7 @@ export default async function HomePage() {
 
         <section aria-labelledby="home-faq">
           <SectionHeading title={sections.faq.title} />
-          <div className="max-w-3xl divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
+          <div className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
             {sections.faq.items.map((item) => (
               <details key={item.q} className="group px-4 py-3">
                 <summary className="cursor-pointer list-none font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
