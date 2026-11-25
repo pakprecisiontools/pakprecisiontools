@@ -167,33 +167,38 @@ export default async function ProductPage({ params }: Props) {
       </div>
 
       {content && (
-        <section className="mt-12 max-w-3xl space-y-6">
-          {content.paragraphs.map((paragraph) => (
-            <p key={paragraph} className="leading-relaxed text-muted-foreground">
-              {paragraph}
-            </p>
-          ))}
+        <section className="mt-12 grid gap-8 lg:grid-cols-2 lg:items-start">
+          <div className="space-y-6">
+            {content.paragraphs.map((paragraph) => (
+              <p key={paragraph} className="leading-relaxed text-muted-foreground">
+                {paragraph}
+              </p>
+            ))}
 
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">Key features</h2>
-            <ul className="mt-3 space-y-2 text-muted-foreground">
-              {content.features.map((feature) => (
-                <li key={feature} className="flex gap-2">
-                  <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Key features</h2>
+              <ul className="mt-3 space-y-2 text-muted-foreground">
+                {content.features.map((feature) => (
+                  <li key={feature} className="flex gap-2">
+                    <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div className="rounded-xl border border-border bg-card p-5">
-            <h2 className="font-bold">For business buyers</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{productBuyerNote}</p>
-          </div>
+          <div className="space-y-4">
+            <div className="rounded-xl border border-border bg-card p-5">
+              <h2 className="font-bold">For business buyers</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{productBuyerNote}</p>
+            </div>
 
-          <p className="text-muted-foreground">
-            <span className="font-semibold text-foreground">Applications:</span> {content.applications}
-          </p>
+            <div className="rounded-xl border border-border bg-muted p-5">
+              <h2 className="font-bold">Applications</h2>
+              <p className="mt-2 text-sm text-muted-foreground first-letter:uppercase">{content.applications}</p>
+            </div>
+          </div>
         </section>
       )}
 
@@ -202,7 +207,7 @@ export default async function ProductPage({ params }: Props) {
           <h2 id="specs" className="mb-4 text-2xl font-bold">
             Specifications
           </h2>
-          <div className="max-w-3xl overflow-hidden rounded-xl border bg-card">
+          <div className="overflow-hidden rounded-xl border bg-card">
             <Table>
               <TableBody>
                 {[...specs, ["Manufacturer Part No.", product.mpn] as [string, string]].map(([k, v]) => (

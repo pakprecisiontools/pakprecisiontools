@@ -123,12 +123,12 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       />
 
       {content && (
-        <div className="mt-14 max-w-3xl">
+        <section className="mt-16 border-t border-border pt-10">
           <h2 className="text-2xl font-bold tracking-tight">{content.supplier.heading}</h2>
-          <p className="mt-3 text-muted-foreground">{content.supplier.body}</p>
+          <p className="mt-3 max-w-4xl text-muted-foreground">{content.supplier.body}</p>
 
-          <details className="group mt-6 rounded-xl border border-border bg-card">
-            <summary className="flex cursor-pointer list-none items-center gap-2 px-5 py-4 font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
+          <details className="group mt-8 rounded-xl border border-border bg-card">
+            <summary className="flex cursor-pointer list-none items-center gap-2 px-5 py-4 font-semibold marker:hidden sm:px-6 [&::-webkit-details-marker]:hidden">
               <ChevronRightIcon
                 width={18}
                 height={18}
@@ -136,12 +136,12 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               />
               Read more about {category.name}
             </summary>
-            <div className="space-y-10 border-t border-border px-5 py-6">
+            <div className="space-y-10 border-t border-border px-5 py-6 sm:px-6">
               <section>
                 <h2 className="text-xl font-bold tracking-tight">{content.guide.heading}</h2>
-                <div className="mt-4 space-y-5">
+                <div className="mt-4 gap-x-10 lg:columns-2">
                   {content.guide.sections.map((section) => (
-                    <div key={section.h3}>
+                    <div key={section.h3} className="mb-5 break-inside-avoid">
                       <h3 className="font-semibold">{section.h3}</h3>
                       <p className="mt-1 leading-relaxed text-muted-foreground">{section.body}</p>
                     </div>
@@ -152,13 +152,13 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               {content.pricing && (
                 <section>
                   <h2 className="text-xl font-bold tracking-tight">{content.pricing.heading}</h2>
-                  <p className="mt-3 leading-relaxed text-muted-foreground">{content.pricing.body}</p>
+                  <p className="mt-2 max-w-4xl leading-relaxed text-muted-foreground">{content.pricing.body}</p>
                 </section>
               )}
 
               <section>
                 <h2 className="text-xl font-bold tracking-tight">{content.whyBuy.heading}</h2>
-                <ul className="mt-3 space-y-2 text-muted-foreground">
+                <ul className="mt-3 grid gap-x-10 gap-y-2 text-muted-foreground sm:grid-cols-2">
                   {content.whyBuy.points.map((point) => (
                     <li key={point} className="flex gap-2">
                       <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
@@ -170,11 +170,11 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             </div>
           </details>
 
-          <section aria-labelledby="category-faq" className="mt-10">
+          <section aria-labelledby="category-faq" className="mt-12">
             <h2 id="category-faq" className="text-2xl font-bold tracking-tight">
               {content.faqHeading}
             </h2>
-            <div className="mt-4 space-y-3">
+            <div className="mt-4 grid items-start gap-3 lg:grid-cols-2">
               {content.faqs.map((item) => (
                 <details key={item.q} className="group rounded-xl border border-border bg-card px-5 py-4">
                   <summary className="flex cursor-pointer list-none items-start gap-2 font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
@@ -190,7 +190,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               ))}
             </div>
           </section>
-        </div>
+        </section>
       )}
     </Container>
   );

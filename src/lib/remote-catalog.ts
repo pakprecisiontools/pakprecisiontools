@@ -1,3 +1,4 @@
+import { canonicalCategorySlug } from "@/data/categories";
 import { inboxSiteKey, inboxUrl } from "./dashboard";
 import type { Brand, Product } from "./types";
 
@@ -40,7 +41,7 @@ export async function fetchRemoteProducts(): Promise<Product[]> {
       sku: row.sku || "",
       mpn: row.mpn || "",
       brand: row.brand || "",
-      category: row.category || "",
+      category: canonicalCategorySlug(row.category || ""),
       description: row.description || "",
       specs: publicSpecs(row.specs),
       images: Array.isArray(row.images) ? row.images.filter((src): src is string => typeof src === "string") : [],

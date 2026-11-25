@@ -1,4 +1,4 @@
-import { categories } from "@/data/categories";
+import { canonicalCategorySlug, categories } from "@/data/categories";
 import { fetchRemoteBrands, fetchRemoteProducts } from "./remote-catalog";
 import type { Brand, Category, Product } from "./types";
 
@@ -10,7 +10,8 @@ export { categories };
 
 const categoryMap = new Map(categories.map((c) => [c.slug, c]));
 
-export const getCategory = (slug: string): Category | undefined => categoryMap.get(slug);
+export const getCategory = (slug: string): Category | undefined =>
+  categoryMap.get(canonicalCategorySlug(slug));
 export const brandName = (slug: string) =>
   slug
     .split(/[-\s]+/)
@@ -40,7 +41,7 @@ export const childCategories = (slug: string) => categories.filter((c) => c.pare
 /** Ancestors first, the category itself last. */
 export function categoryPath(slug: string): Category[] {
   const path: Category[] = [];
-  let current = categoryMap.get(slug);
+  let current = categoryMap.get(canonicalCategorySlug(slug));
   while (current) {
     path.unshift(current);
     current = current.parent ? categoryMap.get(current.parent) : undefined;

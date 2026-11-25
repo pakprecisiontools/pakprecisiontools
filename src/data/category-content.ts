@@ -19,7 +19,7 @@ export type CategoryContent = {
 };
 
 export const categoryContent: Record<string, CategoryContent> = {
-  "electrical-test": {
+  "electrical-test-and-measurement": {
     metaTitle: "Electrical Test Equipment in Pakistan | PAK Precision Tools",
     metaDescription:
       "Multimeters, clamp meters, insulation testers and thermal imagers from Fluke, Megger, UNI-T and Testo. Get the latest price in Pakistan within 1 business day.",
@@ -190,7 +190,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  "industrial-automation": {
+  "industrial-automation-and-motor-protection": {
     metaTitle: "Industrial Automation Parts in Pakistan | PAK Precision Tools",
     metaDescription:
       "PLCs, VFDs, contactors, relays, timers and sensors from Siemens, Schneider, ABB, Omron and Allen-Bradley. Get the latest price in Pakistan within 1 business day.",
@@ -285,7 +285,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  "ppe-safety": {
+  "ppe-safety-and-gas-detection": {
     metaTitle: "PPE Supplier in Pakistan | PAK Precision Tools",
     metaDescription:
       "Respirators, gas detectors, safety harnesses, safety shoes, hard hats and coveralls from 3M, MSA, Dräger, Honeywell and Karam. Get the latest price within 1 day.",
@@ -360,7 +360,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  "condition-monitoring": {
+  "condition-monitoring-and-vibration": {
     metaTitle: "Vibration Monitoring System in Pakistan | PAK Precision Tools",
     metaDescription:
       "Bently Nevada 3500 machinery protection racks, monitor modules and 3300 XL proximity probes for turbines, compressors and pumps. Get the latest price within 1 day.",
@@ -416,7 +416,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  calibrators: {
+  "pressure-and-temperature-calibrators": {
     metaTitle: "Calibration Equipment in Pakistan | PAK Precision Tools",
     metaDescription:
       "Pressure calibrators, dry-well temperature calibrators and Mitutoyo measuring tools from Druck, Additel and Fluke Calibration. Get the latest price within 1 day.",
@@ -484,7 +484,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  "rf-laboratory": {
+  "rf-microwave-and-lab-electronics": {
     metaTitle: "RF Test Equipment in Pakistan | PAK Precision Tools",
     metaDescription:
       "Keysight FieldFox microwave analyzers, Infiniium oscilloscopes and Keithley source measure units for labs and field RF work. Get the latest price within 1 day.",
@@ -540,7 +540,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  "mass-flow": {
+  "coriolis-flowmeters-and-mass-flow-controllers": {
     metaTitle: "Coriolis Flow Meters in Pakistan | PAK Precision Tools",
     metaDescription:
       "Micro Motion ELITE Coriolis flowmeters and Alicat and Aalborg mass flow controllers for liquids and gases. Get the latest price in Pakistan within 1 day.",
@@ -592,7 +592,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  "analytical-sensors": {
+  "environmental-and-analytical-sensors": {
     metaTitle: "Moisture & Oxygen Analyzers in Pakistan | PAK Precision Tools",
     metaDescription:
       "Vaisala dew point and humidity transmitters, Panametrics moisture analyzers and Rosemount OCX8800 oxygen analyzers. Get the latest price in Pakistan within 1 day.",
@@ -648,7 +648,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
 
-  "remote-inspection": {
+  "safety-and-remote-inspection": {
     metaTitle: "Industrial Borescopes in Pakistan | PAK Precision Tools",
     metaDescription:
       "Waygate Mentor Visual iQ video borescopes and RAE Systems AreaRAE area gas monitors. Get the latest video borescope price in Pakistan within 1 day.",
