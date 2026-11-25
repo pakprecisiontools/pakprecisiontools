@@ -32,6 +32,13 @@ export type Product = {
   datasheets: Datasheet[];
 };
 
+export type Faq = { q: string; a: string };
+
+export type ProductGuide = {
+  heading: string;
+  sections: { h3: string; body: string }[];
+};
+
 export type QuoteItem = {
   slug: string;
   name: string;

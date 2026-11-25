@@ -8,6 +8,7 @@ import { ProductGrid } from "@/components/product/ProductCard";
 import { ProductImage } from "@/components/product/ProductImage";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@/components/ui/table";
 import { Breadcrumbs, Container, SectionHeading } from "@/components/shared";
+import { productBuyerNote, productContentFor } from "@/data/product-content";
 import {
   brandName,
   catalogBrands,
@@ -31,6 +32,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await catalogProduct((await params).slug);
   if (!product) return {};
+  const content = productContentFor(product.slug);
+  if (content) {
+    // The copy already ends with the brand name, so skip the layout title template.
+    return { title: { absolute: content.metaTitle }, description: content.metaDescription };
+  }
   const brandList = await catalogBrands();
   const brand =
     leadingBrandName(product.name, brandList) ??
@@ -56,6 +62,8 @@ export default async function ProductPage({ params }: Props) {
   const path = categoryPath(product.category);
   const related = relatedProducts(product, 4, all);
   const specs = Object.entries(product.specs);
+  const content = productContentFor(product.slug);
+  const lead = content?.shortDescription ?? product.description;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -63,7 +71,7 @@ export default async function ProductPage({ params }: Props) {
     name: title,
     sku: product.sku,
     mpn: product.mpn,
-    description: product.description,
+    description: lead,
     brand: { "@type": "Brand", name: brandLabel },
     image: product.images.length ? product.images : undefined,
   };
@@ -122,7 +130,7 @@ export default async function ProductPage({ params }: Props) {
             </dd>
           </dl>
 
-          {product.description && <p className="mt-5 text-muted-foreground">{product.description}</p>}
+          {lead && <p className="mt-5 text-muted-foreground">{lead}</p>}
 
           <div className="mt-6 rounded-xl border border-border bg-card p-5">
             <ProductActions product={product} whatsappNumber={siteConfig.contact.whatsapp} />
@@ -157,6 +165,37 @@ export default async function ProductPage({ params }: Props) {
           </section>
         </div>
       </div>
+
+      {content && (
+        <section className="mt-12 max-w-3xl space-y-6">
+          {content.paragraphs.map((paragraph) => (
+            <p key={paragraph} className="leading-relaxed text-muted-foreground">
+              {paragraph}
+            </p>
+          ))}
+
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">Key features</h2>
+            <ul className="mt-3 space-y-2 text-muted-foreground">
+              {content.features.map((feature) => (
+                <li key={feature} className="flex gap-2">
+                  <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-xl border border-border bg-card p-5">
+            <h2 className="font-bold">For business buyers</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{productBuyerNote}</p>
+          </div>
+
+          <p className="text-muted-foreground">
+            <span className="font-semibold text-foreground">Applications:</span> {content.applications}
+          </p>
+        </section>
+      )}
 
       {specs.length > 0 && (
         <section aria-labelledby="specs" className="mt-12">
