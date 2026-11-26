@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
+import { PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
 import { Breadcrumbs, buttonClass, Container, PageHeader } from "@/components/shared";
 import { whatsappLink } from "@/lib/whatsapp";
 
@@ -41,11 +41,17 @@ export default function ContactPage() {
                 </a>
               </li>
             ) : null}
-            {contact.publicEmail ? (
+            {contact.whatsapp ? (
               <li className="flex gap-3">
-                <MailIcon className="mt-0.5 shrink-0" />
-                <a href={`mailto:${contact.publicEmail}`} className="hover:underline">
-                  {contact.publicEmail}
+                <WhatsAppIcon className="mt-0.5 shrink-0" />
+                <a
+                  href={whatsappLink("Hello, I would like a quotation for some items.", contact.whatsapp)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  Send a quote request on WhatsApp
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>
             ) : null}

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { LegalPage } from "@/components/LegalPage";
+import { WhatsAppIcon } from "@/components/icons";
+import { whatsappLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = { title: "Privacy Policy", alternates: { canonical: "/privacy" } };
 
@@ -19,9 +21,16 @@ export default function PrivacyPage() {
 
       <h2>Who we are</h2>
       <p>
-        {siteConfig.name}, {address}. For any question about this policy or your information, email{" "}
-        <a href={`mailto:${siteConfig.contact.publicEmail}`} className="text-primary underline">
-          {siteConfig.contact.publicEmail}
+        {siteConfig.name}, {address}. For any question about this policy or your information, message us on{" "}
+        <a
+          href={whatsappLink("Hello, I have a question about your privacy policy.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-primary underline"
+        >
+          <WhatsAppIcon width={16} height={16} />
+          WhatsApp {siteConfig.contact.whatsappDisplay || siteConfig.contact.whatsapp}
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
         .
       </p>
@@ -76,7 +85,7 @@ export default function PrivacyPage() {
       <h2>Your choices and rights</h2>
       <p>
         You can ask us to access, correct or delete your information, or to stop using it for a particular purpose, at
-        any time by emailing the address above. We respond within a reasonable period.
+        any time by messaging us on WhatsApp at the number above. We respond within a reasonable period.
       </p>
 
       <h2>Changes to this policy</h2>

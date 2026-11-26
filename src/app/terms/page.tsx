@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { LegalPage } from "@/components/LegalPage";
+import { WhatsAppIcon } from "@/components/icons";
+import { whatsappLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Terms of Inquiries & Quotations",
@@ -69,9 +71,16 @@ export default function TermsPage() {
 
       <h2>Contact</h2>
       <p>
-        Questions about these terms:{" "}
-        <a href={`mailto:${siteConfig.contact.publicEmail}`} className="text-primary underline">
-          {siteConfig.contact.publicEmail}
+        Questions about these terms? Message us on{" "}
+        <a
+          href={whatsappLink("Hello, I have a question about your terms of inquiries and quotations.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-primary underline"
+        >
+          <WhatsAppIcon width={16} height={16} />
+          WhatsApp {siteConfig.contact.whatsappDisplay || siteConfig.contact.whatsapp}
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
         .
       </p>
