@@ -26,7 +26,7 @@ export default function ContactPage() {
           <ul className="space-y-3">
             {contact.whatsapp ? (
               <li className="flex gap-3">
-                <WhatsAppIcon className="mt-0.5 shrink-0" />
+                <WhatsAppIcon className="mt-0.5 shrink-0 text-whatsapp" />
                 <a href={whatsappLink("Hello, I would like some help.", contact.whatsapp)} target="_blank" rel="noopener noreferrer" className="hover:underline">
                   WhatsApp {contact.whatsappDisplay || contact.whatsapp}
                   <span className="sr-only"> (opens in a new tab)</span>
@@ -43,7 +43,7 @@ export default function ContactPage() {
             ) : null}
             {contact.whatsapp ? (
               <li className="flex gap-3">
-                <WhatsAppIcon className="mt-0.5 shrink-0" />
+                <WhatsAppIcon className="mt-0.5 shrink-0 text-whatsapp" />
                 <a
                   href={whatsappLink("Hello, I would like a quotation for some items.", contact.whatsapp)}
                   target="_blank"

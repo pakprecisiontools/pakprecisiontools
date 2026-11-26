@@ -77,7 +77,7 @@ export function Footer() {
             ) : null}
             {contact.whatsapp ? (
               <li className="flex gap-2">
-                <WhatsAppIcon width={18} height={18} className="mt-0.5 shrink-0" />
+                <WhatsAppIcon width={18} height={18} className="mt-0.5 shrink-0 text-whatsapp" />
                 <a href={`https://wa.me/${contact.whatsapp}`} className="hover:text-foreground hover:underline">
                   {contact.whatsappDisplay || contact.whatsapp}
                 </a>

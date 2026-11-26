@@ -34,7 +34,7 @@ export function Header() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 hover:underline"
               >
-                <WhatsAppIcon width={15} height={15} />
+                <WhatsAppIcon width={15} height={15} className="text-whatsapp" />
                 {siteConfig.contact.whatsappDisplay || siteConfig.contact.whatsapp}
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>

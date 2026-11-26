@@ -28,7 +28,7 @@ export default function PrivacyPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 text-primary underline"
         >
-          <WhatsAppIcon width={16} height={16} />
+          <WhatsAppIcon width={16} height={16} className="text-whatsapp" />
           WhatsApp {siteConfig.contact.whatsappDisplay || siteConfig.contact.whatsapp}
           <span className="sr-only"> (opens in a new tab)</span>
         </a>
