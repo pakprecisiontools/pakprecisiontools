@@ -13,7 +13,7 @@ import {
   SearchIcon,
   ShieldIcon,
 } from "@/components/icons";
-import { BrandCard } from "@/components/product/BrandMark";
+import { BrandGrid } from "@/components/product/BrandMark";
 import { ProductGrid } from "@/components/product/ProductCard";
 import { buttonClass, Container, SectionHeading } from "@/components/shared";
 import { catalogBrands, catalogProducts, categoryHref, productsInCategory, topCategories } from "@/lib/catalog";
@@ -118,13 +118,7 @@ export default async function HomePage() {
               </Link>
             }
           />
-          <ul className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-2">
-            {brands.map((b) => (
-              <li key={b.slug}>
-                <BrandCard brand={b} />
-              </li>
-            ))}
-          </ul>
+          <BrandGrid brands={brands} />
         </section>
 
         <section className="rounded-2xl border border-border bg-card p-6 sm:p-10">

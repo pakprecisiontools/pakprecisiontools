@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { Brand } from "@/lib/types";
-import { cn } from "../shared";
+import { ChevronDownIcon } from "../icons";
+import { buttonClass, cn } from "../shared";
 
 function monogram(name: string) {
   const letters = name.replace(/[^A-Za-z0-9]/g, "");
@@ -55,5 +56,43 @@ export function BrandCard({ brand }: { brand: Brand }) {
       </span>
       <span className="line-clamp-2 w-full text-[11px] font-medium leading-tight">{brand.name}</span>
     </Link>
+  );
+}
+
+/**
+ * Brand tiles that collapse to the first `limit` names with a “See more” toggle,
+ * so long brand lists don’t push the rest of the page down.
+ */
+export function BrandGrid({ brands, limit = 24 }: { brands: Brand[]; limit?: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? brands : brands.slice(0, limit);
+
+  return (
+    <div>
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-2">
+        {visible.map((b) => (
+          <li key={b.slug}>
+            <BrandCard brand={b} />
+          </li>
+        ))}
+      </ul>
+      {brands.length > limit && (
+        <div className="mt-4 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+            className={buttonClass("outline", "sm")}
+          >
+            {expanded ? "Show fewer brands" : `See all ${brands.length} brands`}
+            <ChevronDownIcon
+              width={16}
+              height={16}
+              className={cn("transition-transform", expanded && "rotate-180")}
+            />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
