@@ -38,11 +38,14 @@ export function ProductImage({
     >
       {photo?.startsWith("http") || photo?.startsWith("data:") ? (
         // Remote file, loaded directly so the photo stays the exact source image.
+        // Catalogue grids render 200+ photos, so everything past the first row is lazy.
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={photo}
           alt={alt}
           onError={() => setFailed(true)}
+          loading={preload ? "eager" : "lazy"}
+          decoding="async"
           className="absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)] object-contain sm:inset-3 sm:h-[calc(100%-1.5rem)] sm:w-[calc(100%-1.5rem)]"
         />
       ) : photo ? (

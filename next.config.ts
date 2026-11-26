@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { categoryAliases } from "./src/data/category-aliases";
+import { productRedirects } from "./src/data/product-redirects";
 
 const nextConfig: NextConfig = {
   images: {
@@ -15,16 +16,11 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       })),
       // Duplicate catalogue rows that point at the canonical product page.
-      {
-        source: "/products/fluke-302-325-clamp-meter",
-        destination: "/products/fluke-302-fluke-323-fluke-325-compact-clamp-meters",
+      ...Object.entries(productRedirects).map(([source, canonical]) => ({
+        source: `/products/${source}`,
+        destination: `/products/${canonical}`,
         statusCode: 301,
-      },
-      {
-        source: "/products/fluke-376-fc-iflex",
-        destination: "/products/fluke-376-fc-1000a-ac-dc-wireless-clamp-meter-with-iflex",
-        statusCode: 301,
-      },
+      })),
     ];
   },
 };

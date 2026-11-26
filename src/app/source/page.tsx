@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Source a part – custom import request",
   description:
     "Can’t find the part you need? We source and import industrial equipment worldwide. Send us the details.",
+  alternates: { canonical: "/source" },
 };
 
 export default async function SourcePage({

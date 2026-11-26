@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Quote basket",
   description: "Review your selected products, set quantities and send one request for quotation.",
   robots: { index: false },
+  alternates: { canonical: "/quote" },
 };
 
 export default function QuotePage() {

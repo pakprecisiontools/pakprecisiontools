@@ -6,6 +6,7 @@ import { Breadcrumbs, buttonClass, Container, PageHeader } from "@/components/sh
 export const metadata: Metadata = {
   title: "About us",
   description: `About ${siteConfig.name}: industrial equipment supply and worldwide sourcing.`,
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

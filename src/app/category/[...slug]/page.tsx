@@ -36,11 +36,16 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
   const content = categoryContent[category.slug];
   if (content) {
     // The copy already ends with the brand name, so skip the layout title template.
-    return { title: { absolute: content.metaTitle }, description: content.metaDescription };
+    return {
+      title: { absolute: content.metaTitle },
+      description: content.metaDescription,
+      alternates: { canonical: categoryHref(category.slug) },
+    };
   }
   return {
     title: category.name,
     description: category.description ?? `Browse ${category.name} products and request a quote.`,
+    alternates: { canonical: categoryHref(category.slug) },
   };
 }
 

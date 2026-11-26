@@ -24,6 +24,7 @@ const whyIcons = [SearchIcon, BasketIcon, GlobeIcon, ShieldIcon, CheckIcon, PinI
 export const metadata: Metadata = {
   // The layout title template doesn't apply to the root page, so add the brand here.
   title: `Industrial Instruments Supplier Pakistan | ${siteConfig.name}`,
+  alternates: { canonical: "/" },
 };
 
 export default async function HomePage() {

@@ -7,6 +7,7 @@ import { catalogProducts, parseFilters } from "@/lib/catalog";
 export const metadata: Metadata = {
   title: "All products",
   description: "Browse industrial hydraulic, pneumatic, automation and test equipment by brand and specification.",
+  alternates: { canonical: "/products" },
 };
 
 export default async function ProductsPage({

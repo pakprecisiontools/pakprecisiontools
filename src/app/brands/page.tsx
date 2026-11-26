@@ -6,6 +6,7 @@ import { catalogBrands } from "@/lib/catalog";
 export const metadata: Metadata = {
   title: "Brands",
   description: "Industrial brands we supply and source.",
+  alternates: { canonical: "/brands" },
 };
 
 export default async function BrandsPage() {

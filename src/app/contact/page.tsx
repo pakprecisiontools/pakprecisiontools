@@ -9,6 +9,7 @@ import { whatsappLink } from "@/lib/whatsapp";
 export const metadata: Metadata = {
   title: "Contact",
   description: `Contact ${siteConfig.name} by phone, WhatsApp or email.`,
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

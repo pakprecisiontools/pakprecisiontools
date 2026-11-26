@@ -9,7 +9,7 @@ const lines = (value: string | undefined) =>
 const whatsapp = text(env.NEXT_PUBLIC_WHATSAPP_NUMBER);
 const whatsappDisplay = text(env.NEXT_PUBLIC_WHATSAPP_DISPLAY);
 const landline = text(env.NEXT_PUBLIC_LANDLINE);
-const publicEmail = text(env.NEXT_PUBLIC_CONTACT_EMAIL) || "sales@pakprecisiontools.com";
+const publicEmail = text(env.NEXT_PUBLIC_CONTACT_EMAIL) || "sales@pakprecisiontools.com.pk";
 
 export const siteConfig = {
   name: text(env.NEXT_PUBLIC_COMPANY_NAME) || "PAK Precision Tools",

@@ -35,7 +35,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const content = productContentFor(product.slug);
   if (content) {
     // The copy already ends with the brand name, so skip the layout title template.
-    return { title: { absolute: content.metaTitle }, description: content.metaDescription };
+    return {
+      title: { absolute: content.metaTitle },
+      description: content.metaDescription,
+      alternates: { canonical: `/products/${product.slug}` },
+    };
   }
   const brandList = await catalogBrands();
   const brand =
@@ -46,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${brand} ${product.mpn} – ${title}`,
     description: product.description || `${title} (${product.mpn}). Request a quote.`,
+    alternates: { canonical: `/products/${product.slug}` },
   };
 }
 

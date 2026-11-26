@@ -19,7 +19,13 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
   const brand = await resolveBrand((await params).slug);
-  return brand ? { title: `${brand.name} products`, description: `${brand.name} parts and equipment – request a quote.` } : {};
+  return brand
+    ? {
+        title: `${brand.name} products`,
+        description: `${brand.name} parts and equipment – request a quote.`,
+        alternates: { canonical: `/brands/${brand.slug}` },
+      }
+    : {};
 }
 
 export default async function BrandPage({ params, searchParams }: Props) {

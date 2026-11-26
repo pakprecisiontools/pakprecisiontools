@@ -8,7 +8,7 @@ import { searchProducts } from "@/lib/search";
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
-export const metadata: Metadata = { title: "Search", robots: { index: false } };
+export const metadata: Metadata = { title: "Search", robots: { index: false }, alternates: { canonical: "/search" } };
 
 export default async function SearchPage({ searchParams }: Props) {
   const params = await searchParams;
