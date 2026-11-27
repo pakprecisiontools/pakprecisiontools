@@ -71,7 +71,11 @@ export default function TermsPage() {
 
       <h2>Contact</h2>
       <p>
-        Questions about these terms? Message us on{" "}
+        Questions about these terms? Email{" "}
+        <a href={`mailto:${siteConfig.contact.publicEmail}`} className="text-primary underline">
+          {siteConfig.contact.publicEmail}
+        </a>{" "}
+        or message us on{" "}
         <a
           href={whatsappLink("Hello, I have a question about your terms of inquiries and quotations.")}
           target="_blank"

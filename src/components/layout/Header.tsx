@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { NAV_LINKS, siteConfig } from "@/config/site";
 import { categoryNav, subcategoryNav } from "@/lib/catalog";
-import { PhoneIcon, WhatsAppIcon } from "../icons";
+import { MailIcon, PhoneIcon, WhatsAppIcon } from "../icons";
 import { buttonClass } from "../shared";
 import { CategoryDropdown } from "./CategoryDropdown";
 import { Logo } from "./Logo";
@@ -25,6 +25,12 @@ export function Header() {
               <a href={`tel:${siteConfig.contact.landline.replace(/[^\d+]/g, "")}`} className="flex items-center gap-1.5 hover:underline">
                 <PhoneIcon width={15} height={15} />
                 {siteConfig.contact.landline}
+              </a>
+            ) : null}
+            {siteConfig.contact.publicEmail ? (
+              <a href={`mailto:${siteConfig.contact.publicEmail}`} className="flex items-center gap-1.5 hover:underline">
+                <MailIcon width={15} height={15} />
+                {siteConfig.contact.publicEmail}
               </a>
             ) : null}
             {siteConfig.contact.whatsapp ? (

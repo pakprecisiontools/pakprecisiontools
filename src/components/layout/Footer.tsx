@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { NAV_LINKS, siteConfig } from "@/config/site";
 import { categoryHref, topCategories } from "@/lib/catalog";
-import { PhoneIcon, PinIcon, WhatsAppIcon } from "../icons";
+import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "../icons";
 import { Container } from "../shared";
 import { Logo } from "./Logo";
 
@@ -72,6 +72,14 @@ export function Footer() {
                 <PhoneIcon width={18} height={18} className="mt-0.5 shrink-0" />
                 <a href={`tel:${contact.landline.replace(/[^\d+]/g, "")}`} className="hover:text-foreground hover:underline">
                   {contact.landline}
+                </a>
+              </li>
+            ) : null}
+            {contact.publicEmail ? (
+              <li className="flex gap-2">
+                <MailIcon width={18} height={18} className="mt-0.5 shrink-0" />
+                <a href={`mailto:${contact.publicEmail}`} className="hover:text-foreground hover:underline">
+                  {contact.publicEmail}
                 </a>
               </li>
             ) : null}

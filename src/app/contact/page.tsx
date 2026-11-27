@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
+import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/icons";
 import { Breadcrumbs, buttonClass, Container, PageHeader } from "@/components/shared";
 import { whatsappLink } from "@/lib/whatsapp";
 
@@ -38,6 +38,14 @@ export default function ContactPage() {
                 <PhoneIcon className="mt-0.5 shrink-0" />
                 <a href={`tel:${contact.landline.replace(/[^\d+]/g, "")}`} className="hover:underline">
                   {contact.landline}
+                </a>
+              </li>
+            ) : null}
+            {contact.publicEmail ? (
+              <li className="flex gap-3">
+                <MailIcon className="mt-0.5 shrink-0" />
+                <a href={`mailto:${contact.publicEmail}`} className="hover:underline">
+                  {contact.publicEmail}
                 </a>
               </li>
             ) : null}

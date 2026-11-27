@@ -21,7 +21,11 @@ export default function PrivacyPage() {
 
       <h2>Who we are</h2>
       <p>
-        {siteConfig.name}, {address}. For any question about this policy or your information, message us on{" "}
+        {siteConfig.name}, {address}. For any question about this policy or your information, email{" "}
+        <a href={`mailto:${siteConfig.contact.publicEmail}`} className="text-primary underline">
+          {siteConfig.contact.publicEmail}
+        </a>{" "}
+        or message us on{" "}
         <a
           href={whatsappLink("Hello, I have a question about your privacy policy.")}
           target="_blank"

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const { address, sections } = siteConfig;
+  const { address, contact, sections } = siteConfig;
   return (
     <Container className="py-8">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About us" }]} />
@@ -36,6 +36,11 @@ export default function AboutPage() {
                 </span>
               ))}
             </address>
+          ) : null}
+          {contact.publicEmail ? (
+            <a href={`mailto:${contact.publicEmail}`} className="mt-3 block text-muted-foreground hover:text-foreground hover:underline">
+              {contact.publicEmail}
+            </a>
           ) : null}
           <Link href="/contact" className="mt-4 inline-block font-semibold text-primary underline">
             Send a message
